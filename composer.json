@@ -1,0 +1,27 @@
+{
+    "name": "eto-pesets/liqueur-js",
+    "description": "Library for composition/calculation of ethanol-sucrose-water solutions",
+    "type": "library",
+    "keywords": [
+        "ethanol",
+        "sucrose",
+        "sugar",
+        "syrup",
+        "liqueur",
+        "javascript"
+    ],
+    "homepage": "https://github.com/eto-pesets/liqueur-js",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Pesets",
+            "email": "info@pesets.tech",
+            "homepage": "https://pesets.tech/contact",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/eto-pesets/liqueur-js/issues",
+        "source": "https://github.com/eto-pesets/liqueur-js"
+    }
+}
