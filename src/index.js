@@ -9,6 +9,7 @@ import AlcoholTable from './data/alcohol.table.js';
 import SyrupTable from './data/syrup.table.js';
 
 import Translator from './i18n/Translator.js';
+import Lang from './i18n/index.js';
 
 import { Measure } from './constants/Measure.js';
 import { Density } from './constants/Density.js';
@@ -44,7 +45,8 @@ export {
 	Conversion,
 	round,
 
-	Translator
+	Translator,
+	Lang
 };
 
 /**
