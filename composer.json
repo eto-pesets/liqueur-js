@@ -1,5 +1,5 @@
 {
-    "version": "1.0.1",
+    "version": "1.0.11",
     "name": "eto-pesets/liqueur-js",
     "description": "Library for composition/calculation of ethanol-sucrose-water solutions",
     "type": "library",
