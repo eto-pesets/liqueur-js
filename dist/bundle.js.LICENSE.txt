@@ -1,0 +1,6 @@
+/**
+ * @fileoverview A library for mixing liquids (ethanol-water, sucrose-water and ethanol-sucrose-water solutions)
+ * @author Pesets <info@pesets.tech>
+ * @since 1.0.0
+ * @license Apache-2.0
+ */
