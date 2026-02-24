@@ -8,7 +8,6 @@ import { Conversion } from './Conversion.js';
  */
 export class Alcohol extends Ingredient {
 	density = 1;
-	value = null;
 	type = 'alcohol';
 	/**
 	 * @param {number} value
@@ -22,10 +21,6 @@ export class Alcohol extends Ingredient {
 			Measure.DENSITY,
 			value
 		);
-		this.value = {
-            code: 'format_'+Measure.ABV,
-            data: this.get(Measure.ABV)
-        }
 	}
 	/**
 	 * @override

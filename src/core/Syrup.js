@@ -8,7 +8,6 @@ import { Conversion } from './Conversion.js';
  */
 export class Syrup extends Ingredient {
 	density = 1;
-	value = null;
 	type = 'syrup';
 	/**
 	 * @param {number} value
@@ -22,10 +21,6 @@ export class Syrup extends Ingredient {
 			Measure.DENSITY,
 			value
 		);
-		this.value = {
-            code: 'format_'+Measure.BRIX,
-            data: this.get(Measure.BRIX)
-        }
 	}
 	/**
 	 * @override

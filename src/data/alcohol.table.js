@@ -19,6 +19,10 @@
 let data;
 
 export default {
+    COL_DENSITY: 2,
+    COL_VV: 0,
+    COL_WW: 1,
+    COL_WV: 3,
     lookup(value, col_lookup, col_result, inverse) {
         let k1, k2, pos1, pos2;
         for (let i = 0; i < data.length - 1; i++) {

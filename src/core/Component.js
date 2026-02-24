@@ -18,7 +18,7 @@ export class Component {
 	 *
 	 * @param {number} k
 	 */
-	multiply(k) {
+	scale(k) {
 		this.weight *= k;
 	}
 	/**

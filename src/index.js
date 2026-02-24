@@ -15,6 +15,7 @@ import { Measure } from './constants/Measure.js';
 import { Density } from './constants/Density.js';
 
 import { Ingredient } from './core/Ingredient.js';
+import { VirtualIngredient } from './core/VirtualIngredient.js';
 import { Water } from './core/Water.js';
 import { Alcohol } from './core/Alcohol.js';
 import { Syrup } from './core/Syrup.js';
@@ -34,6 +35,7 @@ export {
 	SyrupTable,
 
 	Ingredient,
+	VirtualIngredient,
 	Water,
 	Alcohol,
 	Syrup,
