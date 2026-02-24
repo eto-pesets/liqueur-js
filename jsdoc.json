@@ -1,0 +1,19 @@
+{
+    "sourceType": "module",
+    "plugins": [
+        "plugins/markdown",
+        "plugins/summarize"
+    ],
+    "source": {
+        "include": [ "src/" ],
+        "exclude": [  ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "template": "templates/default",
+        "encoding": "utf8",
+        "destination": "./docs/jsdoc/",
+        "recurse": true
+    }
+}
