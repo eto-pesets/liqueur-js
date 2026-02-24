@@ -9,11 +9,7 @@ import { Conversion } from './Conversion.js';
 export class VirtualIngredient extends Ingredient {
 	density = 1;
 	type = 'virtual';
-	/**
-	 * @param {number} value
-	 * @param {MeasureVariant} measure
-	 */
-	constructor(value, measure) {
+	constructor() {
 		super();
 	}
 	/**

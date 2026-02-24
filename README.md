@@ -3,9 +3,9 @@
 README
 - [Installation](#installation)
 - [Quick start](#quick-start)
-- [API](../README.md)
-- [Basic examples](./basic-examples.md)
-- [Advanced examples](./advanced-examples.md)
+- [API](docs/api.md)
+- [Basic examples](docs/basic-examples.md)
+- [Advanced examples](docs/advanced-examples.md)
 
 ## Installation
 

@@ -1,6 +1,6 @@
-# Liqueur-JS Advanced examples
+# liqueur-js Advances examples
 
-[Back](../README.md)
+[Back to README](../README.md)
 
 ## Liqueur composition based on main alcohol
 

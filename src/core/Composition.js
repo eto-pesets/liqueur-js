@@ -12,21 +12,6 @@ import round from "./round.js";
 export class Composition {
 	components = [];
 	/**
-	 * Make a composition
-	 *
-	 * @constructor
-	 * @param {Object} components
-	 *
-	 * @example
-	 * let MyMix = new Composition({
-	 * 	alcohol: new Component(new Alcohol(0.80, Measure.PV), 500, Measure.ML),
-	 * 	water: new Component(new Water, 500, Measure.ML)
-	 * });
-	 */
-	constructor(components) {
-		for (let key in components) this.add(key, components[key]);
-	}
-	/**
 	 * Add a Component to Composition
 	 *
 	 * @param {string} id

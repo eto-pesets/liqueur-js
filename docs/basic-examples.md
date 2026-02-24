@@ -1,6 +1,6 @@
-# Liqueur-JS Basic examples
+# liqueur-js Basic examples
 
-[Back](../README.md)
+[Back to README](../README.md)
 
 ### Syrup info:
 
