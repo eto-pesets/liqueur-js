@@ -3,6 +3,7 @@
 /out-tsc
 /test
 /test/*
+/package-lock.json 
 
 # Runtime data
 pids
