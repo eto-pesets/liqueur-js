@@ -2,6 +2,7 @@
 /tmp
 /out-tsc
 /test
+/test/*
 
 # Runtime data
 pids
