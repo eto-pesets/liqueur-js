@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: i18n/Translator.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: i18n/Translator.js</h1>
 
     
 
@@ -27,58 +27,59 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview A library for mixing liquids (ethanol-water, sucrose-water and ethanol-sucrose-water solutions)
- * @author Pesets &lt;info@pesets.tech>
- * @since 1.0.0
- * @license Apache-2.0
+ * Class that can translate Translatable objects
+ */
+class Translator {
+    language_code;
+    data;
+    /**
+     * @constructor
+     * 
+     * @param {string} language_code - "en"
+     * @param {LanguagePack} data
+     */
+    constructor(language_code, data) {
+        this.code = language_code;
+        this.data = data;
+    }
+    
+    /**
+     * Transforms translatable string to Translator language
+     * Replaces {tags} with corresponding data values
+     * 
+     * @param {Translatable} obj 
+     * @returns {string}
+     */
+    translate(obj) {
+        if (typeof obj != 'object')
+            obj = { code: obj };
+        if (typeof obj.data != 'object')
+            obj.data = { value: obj.data || '' };
+        let result = this.data[obj.code] || obj.code;
+        for (let k in obj.data)
+            result = result.replace('{'+k+'}', obj.data[k]);
+        return result;
+    }
+}
+
+/**
+ * @typedef {(string|TranslatableObject|TranslatableObjectFull)} Translatable
+ */
+/**
+ * @typedef {Object} TranslatableObject
+ * @property {string} TranslatableObject.code - code from language pack
+ * @property {string} TranslatableObject.data - data for default {value} tag
+ */
+/**
+ * @typedef {Object} TranslatableObjectFull
+ * @property {string} TranslatableObjectFull.code - code from language pack
+ * @property {Object.&lt;string, any>} TranslatableObjectFull.data - any data
+ */
+/**
+ * @typedef {Map&lt;code, template>} LanguagePack
  */
 
-import { AlcoholTable } from './data/alcohol.table.js';
-import { SyrupTable } from './data/syrup.table.js';
-
-import { Translator } from './i18n/Translator.js';
-import Lang from './i18n/index.js';
-
-import { Measure } from './data/Measure.js';
-import { Density } from './data/Density.js';
-
-import { Ingredient } from './core/Ingredient.js';
-import { VirtualIngredient } from './core/VirtualIngredient.js';
-import { Water } from './core/Water.js';
-import { Alcohol } from './core/Alcohol.js';
-import { Syrup } from './core/Syrup.js';
-import { Liqueur } from './core/Liqueur.js';
-
-import { Component } from './core/Component.js';
-import { Composition } from './core/Composition.js';
-
-import { Conversion } from './core/Conversion.js';
-
-import round from './core/round.js';
-
-export {
-	Measure,
-	Density,
-	AlcoholTable,
-	SyrupTable,
-
-	Ingredient,
-	VirtualIngredient,
-	Water,
-	Alcohol,
-	Syrup,
-	Liqueur,
-
-	Component,
-	Composition,
-
-	Conversion,
-	round,
-
-	Translator,
-	Lang
-};
-</code></pre>
+export { Translator };</code></pre>
         </article>
     </section>
 

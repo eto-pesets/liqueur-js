@@ -1,5 +1,6 @@
 /**
  * Error while trying to combine ingredients
+ * 
  * @extends Error
  */
 export class CalculationError extends Error {

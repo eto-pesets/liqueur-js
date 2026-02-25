@@ -1,8 +1,7 @@
 {
     "sourceType": "module",
     "plugins": [
-        "plugins/markdown",
-        "plugins/summarize"
+        "plugins/markdown"
     ],
     "source": {
         "include": [ "src/" ],

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: AlcoholTable</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: AlcoholTable</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>AlcoholTable</h2>
+        
+            <div class="class-description"><p>Ethanol–water reference data table based on the
+&quot;Laboratory Alcohol Table for Working Out Alcohol Strength&quot;
+published by HM Revenue &amp; Customs.</p>
+<p>The dataset has been adapted, reformatted, corrected for known
+typographical errors, and numerically recalculated where needed.</p>
+<p>Intermediate values are obtained by linear interpolation between
+the nearest data points.</p>
+<p>Example:
+Searching for [1.7, X] in a table [[1, 10], [2, 20]]
+yields [1.7, 17].
+Searching for [1.5, X] in a table [[1, 10], [2, 50]]
+yields [1.5, 30].</p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data_alcohol.table.js.html">data/alcohol.table.js</a>, <a href="data_alcohol.table.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".lookup"><span class="type-signature">(static) </span>lookup<span class="signature">(value, col_lookup, col_result, inverse)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Search the table for a given value and get the corresponding value</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Reference value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col_lookup</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Reference column</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>col_result</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Result column</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>inverse</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Whether to scan from the end of the table</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data_alcohol.table.js.html">data/alcohol.table.js</a>, <a href="data_alcohol.table.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        
+<span class="param-type">Error</span>
+
+
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 17:01:17 GMT+0600 (Omsk Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

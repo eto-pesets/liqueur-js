@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: core/round.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: core/round.js</h1>
 
     
 
@@ -27,58 +27,32 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview A library for mixing liquids (ethanol-water, sucrose-water and ethanol-sucrose-water solutions)
- * @author Pesets &lt;info@pesets.tech>
- * @since 1.0.0
- * @license Apache-2.0
+ * Round with a given precision
+ * 
+ * @param {number} value 
+ * @param {number} [precision=1]
+ * @returns {number}
+ * 
+ * @example
+ * // returns 10
+ * round(9.5317);
+ * 
+ * // returns 9.5317
+ * round(9.5317, 0.000001);
+ * 
+ * // returns 9.5
+ * round(9.5317, 0.1); 
+ * 
+ * // returns 9.6
+ * round(9.5317, 0.2); 
  */
+function round(value, precision) {
+    precision = precision || 1;
+	let n = Math.ceil(Math.log(precision) / Math.log(0.1));
+	return (Math.round(value / precision) * precision).toFixed(Math.max(0, n)) * 1;
+}
 
-import { AlcoholTable } from './data/alcohol.table.js';
-import { SyrupTable } from './data/syrup.table.js';
-
-import { Translator } from './i18n/Translator.js';
-import Lang from './i18n/index.js';
-
-import { Measure } from './data/Measure.js';
-import { Density } from './data/Density.js';
-
-import { Ingredient } from './core/Ingredient.js';
-import { VirtualIngredient } from './core/VirtualIngredient.js';
-import { Water } from './core/Water.js';
-import { Alcohol } from './core/Alcohol.js';
-import { Syrup } from './core/Syrup.js';
-import { Liqueur } from './core/Liqueur.js';
-
-import { Component } from './core/Component.js';
-import { Composition } from './core/Composition.js';
-
-import { Conversion } from './core/Conversion.js';
-
-import round from './core/round.js';
-
-export {
-	Measure,
-	Density,
-	AlcoholTable,
-	SyrupTable,
-
-	Ingredient,
-	VirtualIngredient,
-	Water,
-	Alcohol,
-	Syrup,
-	Liqueur,
-
-	Component,
-	Composition,
-
-	Conversion,
-	round,
-
-	Translator,
-	Lang
-};
-</code></pre>
+export default round;</code></pre>
         </article>
     </section>
 

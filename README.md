@@ -1,11 +1,16 @@
 # liqueur-js
 
 README
-- [Installation](#installation)
-- [Quick start](#quick-start)
-- [API](docs/api.md)
-- [Basic examples](docs/basic-examples.md)
-- [Advanced examples](docs/advanced-examples.md)
+- [liqueur-js](#liqueur-js)
+  - [Installation](#installation)
+    - [Composer](#composer)
+    - [Laravel](#laravel)
+  - [Quick start](#quick-start)
+  - [API](#api)
+  - [Basic examples](#basic-examples)
+  - [Advanced examples](#advanced-examples)
+  - [Physical model](#physical-model)
+  - [License](#license)
 
 ## Installation
 
@@ -48,7 +53,7 @@ Module:
 import { Liqueur, Syrup, Alcohol /*, ... */ } from '/path/to/src/index.js';
 ```
 
-Browser bundle:
+Browser bundle: 
 
 ```html
 <script src="/path/to/dist/bundle.js"></script>
@@ -56,6 +61,19 @@ Browser bundle:
 	const { Liqueur, Syrup, Alcohol /*, ... */ } = LiqueurJS;
 </script>
 ```
+
+## API
+
+
+See [API](docs/api.md) and [local](docs/jsdoc/index.html) and [hosted](https://pesets.tech/liqueur-js-docs) JSDoc reference
+
+## Basic examples
+
+See [Basic examples](docs/basic-examples.md)
+
+## Advanced examples
+
+See [Advanced examples](docs/advanced-examples.md)
 
 ## Physical model
 

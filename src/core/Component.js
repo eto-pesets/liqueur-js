@@ -1,10 +1,14 @@
-import { Measure } from "../constants/Measure.js";
+import { Measure } from "../data/Measure.js";
 import round from './round.js';
-
+/**
+ * Container for ingredient to use in Composition
+ */
 export class Component {
 	weight = 0;
 	ingredient = null;
 	/**
+	 * @constructor
+	 * 
 	 * @param {Ingredient} ingredient
 	 * @param {number} quantity
 	 * @param {Measure} measure
@@ -17,6 +21,7 @@ export class Component {
 	 * Scale all ingredients by K
 	 *
 	 * @param {number} k
+	 * @returns {void}
 	 */
 	scale(k) {
 		this.weight *= k;
@@ -26,17 +31,11 @@ export class Component {
 	 *
 	 * Usage: myComponent.is(Alcohol)
 	 * @param {Constructor} constructor
+	 * @returns {boolean}
 	 */
 	is(constructor) {
 		return this.ingredient instanceof constructor;
 	}
-	/**
-	 * Calculates weight from a givent quantity and measure
-	 *
-	 * @private
-	 * @param {number} quantity
-	 * @param {MeasureVariant} measure
-	 */
 	#fromMeasure(quantity, measure) {
 		switch (measure) {
 			case Measure.G:
@@ -64,6 +63,7 @@ export class Component {
 	 * Get Component or Ingredient measurement
 	 *
 	 * @param {MeasureVariant} measure
+	 * @returns {number}
 	 */
 	get(measure) {
 		switch (measure) {
@@ -97,7 +97,8 @@ export class Component {
 	 * Get human-readable Component or Ingredient measurement with a given precision
 	 *
 	 * @param {MeasureVariant} measure
-	 * @param {number} precision
+	 * @param {number} [precision=0.01]
+	 * @returns {Translatable}
 	 */
 	fget(measure, precision) {
 		switch (measure) {

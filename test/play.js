@@ -58,7 +58,7 @@ composition.scaleTo(700, Measure.ML);
 // all values are rounded to 0.1
 let recipe = [];
 composition.components.forEach(({ id, component }, index) => {
-	let name = component.ingredient.getAttribute('name') || id,
+	let name = component.ingredient.attr('name') || id,
 		quantity =
 			(component.is(VirtualIngredient)
 				? ''

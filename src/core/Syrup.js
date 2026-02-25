@@ -1,10 +1,12 @@
-import { Measure } from '../constants/Measure.js';
+import { Measure } from '../data/Measure.js';
 
 import { Ingredient } from "./Ingredient.js";
 import { Conversion } from './Conversion.js';
 
 /**
  * Sucrose and water solution
+ * 
+ * @extends {Ingredient}
  */
 export class Syrup extends Ingredient {
 	density = 1;

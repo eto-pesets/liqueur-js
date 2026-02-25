@@ -1,4 +1,4 @@
-import { Measure } from "../constants/Measure.js";
+import { Measure } from "../data/Measure.js";
 
 import { Component } from "./Component.js";
 import { Alcohol } from "./Alcohol.js";
@@ -7,7 +7,7 @@ import { VirtualIngredient } from "./VirtualIngredient.js";
 import round from "./round.js";
 
 /**
- * A collection of ingredients
+ * Collection of ingredients
  */
 export class Composition {
 	components = [];
@@ -101,7 +101,6 @@ export class Composition {
 	 * @returns {CompositionInfo}
 	 */
 	info(precision) {
-		/** @var {CompositionInfo} result */
 		let result = {
 			volume: this.total(Measure.ML),
 			weight: this.total(Measure.G),
@@ -112,7 +111,7 @@ export class Composition {
 		};
 		this.components.forEach(({ id, component }, index) => {
 			if (component.is(Alcohol))
-				result.abs_spirit += component.get(Measure.ML) * component.get(Measure.PV);
+				result.abs_spirit += component.get(Measure.ML) * component.get(Measure.VV);
 			if (component.is(Syrup))
 				result.sugar += component.get(Measure.ML) * component.get(Measure.WV);
 		})
@@ -126,3 +125,12 @@ export class Composition {
 		return result;
 	}
 }
+/**
+ * @typedef {Object} CompositionInfo
+ * @property {number} volume - total volume, ml
+ * @property {number} weight - total weight, g
+ * @property {number} density - density, g/ml
+ * @property {number} abs_spirit - absolute spirit, ml
+ * @property {number} abv - alcohol by volume, %
+ * @property {number} sugar - total sugar, g
+ */

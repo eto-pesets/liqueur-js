@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Conversion<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Conversion</h2>
         
             <div class="class-description"><p>Conversions between units</p></div>
         
@@ -39,16 +39,6 @@
     <div class="container-overview">
     
         
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="Conversion"><span class="type-signature"></span>new Conversion<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
 
 
 
@@ -93,7 +83,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line13">line 13</a>
+        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -235,7 +225,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line17">line 17</a>
+        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -263,12 +253,16 @@
     
 
     
-    <h4 class="name" id=".binary_search"><span class="type-signature">(static) </span>binary_search<span class="signature">(callback, target, min, max, precision<span class="signature-attributes">opt</span>, inverse<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".binary_search"><span class="type-signature">(static) </span>binary_search<span class="signature">(callback, target, min, max, precision<span class="signature-attributes">opt</span>, inverse<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
 
 
+
+<div class="description">
+    <p>Binary search method for really complex things</p>
+</div>
 
 
 
@@ -559,7 +553,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line140">line 140</a>
+        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -582,12 +576,39 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        
+<span class="param-type"><a href="CalculationError.html">CalculationError</a></span>
+
+
+    
+    </div>
+
+
+    
 
 
 <h5>Returns:</h5>
 
         
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
 
     
 
@@ -601,17 +622,15 @@
     
 
     
-    <h4 class="name" id=".convert"><span class="type-signature">(static) </span>convert<span class="signature">(ingredient, from, to)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".convert"><span class="type-signature">(static) </span>convert<span class="signature">(ingredient, from, to, value)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
-    
-    <p class="summary"><p>Facade function for converting frome anything to anything</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Facade function for converting frome anything to anything</p>
+    <p>Facade function for converting from anything to anything</p>
 </div>
 
 
@@ -653,7 +672,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type"><a href="global.html#IngredientType">IngredientType</a></span>
 
 
             
@@ -663,7 +682,7 @@
 
             
 
-            <td class="description last"><p>lowercase of a class (Syrup -&gt; &quot;syrup&quot;)</p></td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -700,6 +719,29 @@
             
                 
 <span class="param-type"><a href="global.html#MeasureVariant">MeasureVariant</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
 
 
             
@@ -750,7 +792,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line25">line 25</a>
+        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -773,8 +815,41 @@
 
 
 
+<h5>Throws:</h5>
+
+        
+
+    <div class="param-desc">
+    
+        
+<span class="param-type"><a href="CalculationError.html">CalculationError</a></span>
 
 
+    
+    </div>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -796,13 +871,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component_Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#result">result</a></li><li><a href="global.html">validation_map</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 03:53:08 GMT+0600 (Omsk Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 17:01:17 GMT+0600 (Omsk Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

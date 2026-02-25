@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
+    <title>JSDoc: Source: data/Measure.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: index.js</h1>
+    <h1 class="page-title">Source: data/Measure.js</h1>
 
     
 
@@ -26,59 +26,38 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview A library for mixing liquids (ethanol-water, sucrose-water and ethanol-sucrose-water solutions)
- * @author Pesets &lt;info@pesets.tech>
- * @since 1.0.0
- * @license Apache-2.0
+            <pre class="prettyprint source linenums"><code>/** @typedef {string} MeasureVariant */
+/**
+ * Measures.
+ * 
+ * @summary
+ *  - Measure.DENSITY: density, g/ml, [0..Inf]
+ *  - Measure.ABV: alcohol by volume, % ABV, [0..100]
+ *  - Measure.BRIX: brix degree, ° Brix, [0..100]
+ *  - Measure.WW: mass fraction, %w/w, [0..1]
+ *  - Measure.WV: mass_concentration, %w/v, [0..Inf]
+ *  - Measure.VV: volume fraction, %v/v, [0..1]
+ *  - Measure.L: liter
+ *  - Measure.ML: milliliter
+ *  - Measure.OZ: US fluid ounce
+ *  - Measure.G: gram
+ *  - Measure.KG: kilogram
+ * @readonly
+ * @type {Map&lt;string, MeasureVariant>}
  */
-
-import { AlcoholTable } from './data/alcohol.table.js';
-import { SyrupTable } from './data/syrup.table.js';
-
-import { Translator } from './i18n/Translator.js';
-import Lang from './i18n/index.js';
-
-import { Measure } from './data/Measure.js';
-import { Density } from './data/Density.js';
-
-import { Ingredient } from './core/Ingredient.js';
-import { VirtualIngredient } from './core/VirtualIngredient.js';
-import { Water } from './core/Water.js';
-import { Alcohol } from './core/Alcohol.js';
-import { Syrup } from './core/Syrup.js';
-import { Liqueur } from './core/Liqueur.js';
-
-import { Component } from './core/Component.js';
-import { Composition } from './core/Composition.js';
-
-import { Conversion } from './core/Conversion.js';
-
-import round from './core/round.js';
-
-export {
-	Measure,
-	Density,
-	AlcoholTable,
-	SyrupTable,
-
-	Ingredient,
-	VirtualIngredient,
-	Water,
-	Alcohol,
-	Syrup,
-	Liqueur,
-
-	Component,
-	Composition,
-
-	Conversion,
-	round,
-
-	Translator,
-	Lang
-};
-</code></pre>
+export const Measure = {
+	DENSITY: 'density',
+	ABV: 'alcohol_by_volume',
+	BRIX: 'brix',
+	WW: 'mass_fraction',
+	WV: 'mass_concentration',
+	VV: 'volume_fraction',
+	L: 'volume_liter',
+	ML: 'volume_milliliter',
+	OZ: 'volume_ounce',
+	G: 'mass_gram',
+	KG: 'mass_kilogram',
+};</code></pre>
         </article>
     </section>
 

@@ -1,4 +1,4 @@
-import { Measure } from '../constants/Measure.js';
+import { Measure } from '../data/Measure.js';
 
 import { Ingredient } from './Ingredient.js';
 import { Water } from './Water.js';
@@ -15,6 +15,8 @@ import { CalculationError } from './CalculationError.js';
  * A union of syrup and alcohol solution.
  * Takes "sugar content" from syrup and "alcohol content" from alcohol
  * and creates a liqueur with both characteristics combined.
+ * 
+ * @extends {Ingredient}
  */
 export class Liqueur extends Ingredient {
 	alcohol = null;
@@ -33,7 +35,7 @@ export class Liqueur extends Ingredient {
 	 *
 	 * @example
 	 * let CremeDeCassis = new Liqueur(
-	 * 	new Alcohol(0.20, Measure.PV),
+	 * 	new Alcohol(0.20, Measure.VV),
 	 * 	new Syrup(0.400, Measure.WV),
 	 * );
 	 */
@@ -44,7 +46,7 @@ export class Liqueur extends Ingredient {
 		if (syrup) {
 			this.syrup = syrup;
 			this.sugar = new Component(
-				new Syrup(1, Measure.PW),
+				new Syrup(1, Measure.WW),
 				this.syrup.get(Measure.WV) * volume_left,
 				Measure.G
 			);
@@ -52,22 +54,22 @@ export class Liqueur extends Ingredient {
 			if (volume_left < 0)
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
 		} else {
-			this.syrup = new Component(new Syrup(1, Measure.PV), 0, Measure.G);
+			this.syrup = new Component(new Syrup(1, Measure.VV), 0, Measure.G);
 		}
 
 		if (alcohol) {
 			this.alcohol = alcohol;
 
-			let target_abv = alcohol.get(Measure.PV) * (1000 / volume_left);
+			let target_abv = alcohol.get(Measure.VV) * (1000 / volume_left);
 
 			if (target_abv > 1)
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
 
-			let real_alcohol = new Alcohol(target_abv, Measure.PV),
-				volume = volume_left * real_alcohol.get(Measure.PV);
+			let real_alcohol = new Alcohol(target_abv, Measure.VV),
+				volume = volume_left * real_alcohol.get(Measure.VV);
 
 			this.spirit = new Component(
-				new Alcohol(1, Measure.PV),
+				new Alcohol(1, Measure.VV),
 				volume,
 				Measure.ML
 			);
@@ -77,7 +79,7 @@ export class Liqueur extends Ingredient {
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
 		} else {
 			this.spirit = new Component(
-				new Alcohol(1, Measure.PV),
+				new Alcohol(1, Measure.VV),
 				0,
 				Measure.ML
 			);
@@ -96,25 +98,23 @@ export class Liqueur extends Ingredient {
 	 *
 	 * @returns {LiqueurInfo}
 	 */
-	info() {
+	info(precision) {
+		precision = precision || 0.01;
 		return {
 			sugar: this.syrup
-				? format(
-						this.syrup.get(Measure.WV) * 1000,
-						Measure.WV,
-						0.01,
-						'syrup_'
-					)
-				: null,
+				? {
+                    code: 'syrup_format_'+Measure.WV,
+                    data: round(this.syrup.get(Measure.WV), precision)
+                } : null,
 			abv: this.alcohol
-				? format(
-						this.alcohol.get(Measure.PV) * 100,
-						Measure.PV,
-						0.01,
-						'alcohol_'
-					)
-				: null,
-			density: format(this.density, Measure.DENSITY, 0.0001),
+				? {
+                    code: 'format_'+Measure.ABV,
+                    data: round(this.alcohol.get(Measure.ABV), precision)
+                } : null,
+			density: {
+                    code: 'format_'+Measure.DENSITY,
+                    data: round(this.density, precision * 0.01)
+                }
 		};
 	}
 
@@ -199,9 +199,9 @@ export class Liqueur extends Ingredient {
 							KV.max_alcohol * Conversion.correction
 						);
 						let abv = {
-							main: data.alcohol.get(Measure.PV),
-							fallback: data.fallback.alcohol.get(Measure.PV),
-							target_mild: this.alcohol.get(Measure.PV) / mild_k,
+							main: data.alcohol.get(Measure.VV),
+							fallback: data.fallback.alcohol.get(Measure.VV),
+							target_mild: this.alcohol.get(Measure.VV) / mild_k,
 						};
 						let k_main =
 								mild_k *
@@ -242,7 +242,7 @@ export class Liqueur extends Ingredient {
 	/**
 	 * Make a composition
 	 *
-	 * @param {ConstructFrom} data
+	 * @param {MakeFrom} data
 	 * @returns {Composition}
 	 *
 	 * @example
@@ -276,13 +276,13 @@ export class Liqueur extends Ingredient {
 		}
 
 		if (this.spirit.get(Measure.G) > 0) {
-			let target_abv = this.alcohol.get(Measure.PV);
+			let target_abv = this.alcohol.get(Measure.VV);
 			if (data.alcohol) {
-				KV.alcohol = target_abv / data.alcohol.get(Measure.PV);
+				KV.alcohol = target_abv / data.alcohol.get(Measure.VV);
 			}
 			if (data.fallback?.alcohol) {
 				KV.fallback_alcohol =
-					target_abv / data.fallback.alcohol.get(Measure.PV);
+					target_abv / data.fallback.alcohol.get(Measure.VV);
 			}
 			if (KV.alcohol > 0) {
 				KV.min_alcohol = KV.alcohol;
@@ -368,3 +368,23 @@ export class Liqueur extends Ingredient {
 		return composition;
 	}
 }
+
+/**
+ * @typedef {Object} MakeFrom
+ * @property {Alcohol} [alcohol] - main alcohol
+ * @property {Syrup} [syrup] - main syrup/sugar
+ * @property {('alcohol'|'syrup')} [priority='alcohol'] - priority in constructions
+ * @property {Object} [basis] - calculation basis
+ * @property {('alcohol'|'syrup'|'total')} basis.source
+ * @property {number} basis.value - value
+ * @property {MeasureVariant} basis.measure - Measure.*
+ * @property {Object} [fallback] - fallback ingredients
+ * @property {Alcohol} [fallback.alcohol] - fallback alcohol
+ * @property {Syrup} [fallback.syrup] - fallback syrup/sugar
+ */
+/**
+ * @typedef {Object} LiqueurInfo
+ * @property {(string|null)} sugar - human-readable sugar content
+ * @property {(string|null)} abv - human-readable alcohol content
+ * @property {string} density - human-readable ddensity
+ */

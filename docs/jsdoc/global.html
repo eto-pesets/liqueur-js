@@ -98,10 +98,14 @@
 
         
             
-<h4 class="name" id="Density"><span class="type-signature">(constant) </span>Density<span class="type-signature"> :number</span></h4>
+<h4 class="name" id="Density"><span class="type-signature">(constant) </span>Density<span class="type-signature"> :Map.&lt;string, number></span></h4>
 
 
-<p class="summary">Common densities at 20°C.</p>
+<p class="summary"><ul>
+<li>Density.WATER = 0.998</li>
+<li>Density.SUCROSE = 1.5859</li>
+<li>Density.ETHANOL = 0.78816</li>
+</ul></p>
 
 
 
@@ -115,7 +119,7 @@
     <ul>
         <li>
             
-<span class="param-type">number</span>
+<span class="param-type">Map.&lt;string, number></span>
 
 
         </li>
@@ -154,7 +158,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constants_Density.js.html">constants/Density.js</a>, <a href="constants_Density.js.html#line7">line 7</a>
+        <a href="data_Density.js.html">data/Density.js</a>, <a href="data_Density.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -172,10 +176,94 @@
 
         
             
-<h4 class="name" id="Measure"><span class="type-signature">(constant) </span>Measure<span class="type-signature"> :<a href="global.html#MeasureVariant">MeasureVariant</a></span></h4>
+<h4 class="name" id="Lang"><span class="type-signature">(constant) </span>Lang<span class="type-signature"> :Map.&lt;string, Object.&lt;string, string>></span></h4>
 
 
-<p class="summary">Measures.</p>
+
+
+<div class="description">
+    <p>Language packs</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Map.&lt;string, Object.&lt;string, string>></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="i18n_index.js.html">i18n/index.js</a>, <a href="i18n_index.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Measure"><span class="type-signature">(constant) </span>Measure<span class="type-signature"> :Map.&lt;string, <a href="global.html#MeasureVariant">MeasureVariant</a>></span></h4>
+
+
+<p class="summary"><ul>
+<li>Measure.DENSITY: density, g/ml, [0..Inf]</li>
+<li>Measure.ABV: alcohol by volume, % ABV, [0..100]</li>
+<li>Measure.BRIX: brix degree, ° Brix, [0..100]</li>
+<li>Measure.WW: mass fraction, %w/w, [0..1]</li>
+<li>Measure.WV: mass_concentration, %w/v, [0..Inf]</li>
+<li>Measure.VV: volume fraction, %v/v, [0..1]</li>
+<li>Measure.L: liter</li>
+<li>Measure.ML: milliliter</li>
+<li>Measure.OZ: US fluid ounce</li>
+<li>Measure.G: gram</li>
+<li>Measure.KG: kilogram</li>
+</ul></p>
 
 
 
@@ -189,7 +277,7 @@
     <ul>
         <li>
             
-<span class="param-type"><a href="global.html#MeasureVariant">MeasureVariant</a></span>
+<span class="param-type">Map.&lt;string, <a href="global.html#MeasureVariant">MeasureVariant</a>></span>
 
 
         </li>
@@ -228,7 +316,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constants_Measure.js.html">constants/Measure.js</a>, <a href="constants_Measure.js.html#line8">line 8</a>
+        <a href="data_Measure.js.html">data/Measure.js</a>, <a href="data_Measure.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -245,85 +333,248 @@
 
 
         
-            
-<h4 class="name" id="result"><span class="type-signature"></span>result<span class="type-signature"> :CompositionInfo</span></h4>
-
-
-
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">CompositionInfo</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Composition.js.html">core/Composition.js</a>, <a href="core_Composition.js.html#line104">line 104</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
+        <h3 class="subsection-title">Methods</h3>
 
         
             
-<h4 class="name" id="validation_map"><span class="type-signature">(static) </span>validation_map<span class="type-signature"> :Object</span></h4>
 
+    
 
-<p class="summary"><p>Validation functions</p>.</p>
+    
+    <h4 class="name" id="round"><span class="type-signature"></span>round<span class="signature">(value, precision<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
 
 
 
 <div class="description">
-    <p>Validation functions</p>
+    <p>Round with a given precision</p>
 </div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>precision</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    1
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_round.js.html">core/round.js</a>, <a href="core_round.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// returns 10
+round(9.5317);
+
+// returns 9.5317
+round(9.5317, 0.000001);
+
+// returns 9.5
+round(9.5317, 0.1); 
+
+// returns 9.6
+round(9.5317, 0.2); </code></pre>
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="CompositionInfo">CompositionInfo</h4>
+
+
+
 
 
 
@@ -367,13 +618,13 @@
 
         <tr>
             
-                <td class="name"><code>validation_map</code></td>
+                <td class="name"><code>volume</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#MeasureVariant">MeasureVariant</a></span>
+<span class="param-type">number</span>
 
 
             
@@ -383,7 +634,122 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>total volume, ml</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>weight</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>total weight, g</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>density</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>density, g/ml</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>abs_spirit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>absolute spirit, ml</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>abv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>alcohol by volume, %</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sugar</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>total sugar, g</p></td>
         </tr>
 
     
@@ -422,7 +788,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Conversion.js.html">core/Conversion.js</a>, <a href="core_Conversion.js.html#line38">line 38</a>
+        <a href="core_Composition.js.html">core/Composition.js</a>, <a href="core_Composition.js.html#line128">line 128</a>
     </li></ul></dd>
     
 
@@ -438,17 +804,9 @@
 
 
 
-        
-    
-
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
+            
                 
-<h4 class="name" id="MeasureVariant">MeasureVariant</h4>
+<h4 class="name" id="IngredientType">IngredientType</h4>
 
 
 
@@ -498,7 +856,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constants_Measure.js.html">constants/Measure.js</a>, <a href="constants_Measure.js.html#line1">line 1</a>
+        <a href="core_Ingredient.js.html">core/Ingredient.js</a>, <a href="core_Ingredient.js.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -516,35 +874,100 @@
 
             
                 
+<h4 class="name" id="LanguagePack">LanguagePack</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Map.&lt;code, template></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
 
     
 
     
-    <h4 class="name" id="ValidationMap"><span class="type-signature"></span>ValidationMap<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
     
 
     
-    <p class="summary"><p>{ [Syrup]: { [Measure.PW]: (v) =&gt; (v &gt;= 0 &amp;&amp; v &lt;= 100) } }</p>.</p>
+
     
 
-
-
-<div class="description">
-    <p>{ [Syrup]: { [Measure.PW]: (v) =&gt; (v &gt;= 0 &amp;&amp; v &lt;= 100) } }</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
     
 
-<table class="params">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="i18n_Translator.js.html">i18n/Translator.js</a>, <a href="i18n_Translator.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="LiqueurInfo">LiqueurInfo</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
     <thead>
     <tr>
         
@@ -566,13 +989,16 @@
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>sugar</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
 
 
             
@@ -582,13 +1008,128 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>human-readable sugar content</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>abv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>human-readable alcohol content</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>density</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>human-readable ddensity</p></td>
         </tr>
 
     
     </tbody>
 </table>
 
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_Liqueur.js.html">core/Liqueur.js</a>, <a href="core_Liqueur.js.html#line385">line 385</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="MakeFrom">MakeFrom</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -611,6 +1152,8 @@
         <th>Attributes</th>
         
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -645,6 +1188,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last"><p>main alcohol</p></td>
         </tr>
@@ -676,8 +1223,52 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last"><p>main syrup/sugar</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>priority</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'alcohol'</span>
+|
+
+<span class="param-type">'syrup'</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'alcohol'
+                
+                </td>
+            
+
+            <td class="description last"><p>priority in constructions</p></td>
         </tr>
 
     
@@ -690,7 +1281,7 @@
             <td class="type">
             
                 
-<span class="param-type">CalculationBasis</span>
+<span class="param-type">Object</span>
 
 
             
@@ -707,41 +1298,32 @@
             
 
             
-
-            <td class="description last"><p>calculation basis</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fallback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">ConstructionFallback</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
+                <td class="default">
                 
                 </td>
             
 
-            
+            <td class="description last"><p>calculation basis</p>
+                <h6>Properties</h6>
 
-            <td class="description last"><p>fallback ingredients</p></td>
-        </tr>
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
@@ -764,12 +1346,6 @@
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-                </td>
             
 
             
@@ -794,12 +1370,6 @@
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-                </td>
-            
 
             
 
@@ -823,7 +1393,39 @@
             </td>
 
             
+
+            
+
+            <td class="description last"><p>Measure.*</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fallback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -831,10 +1433,34 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last"><p>Measure.*</p></td>
-        </tr>
+            <td class="description last"><p>fallback ingredients</p>
+                <h6>Properties</h6>
 
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
@@ -898,398 +1524,6 @@
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>sugar</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">null</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>human-readable sugar content</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>abv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">null</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>human-readable alcohol content</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>density</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">null</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>human-readable ddensity</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>volume</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>total volume, ml</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>weight</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>total weight, g</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>density</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>density, g/ml</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>abs_spirit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>absolute spirit, ml</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>abv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>alcohol by volume, %</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sugar</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>total sugar, g</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>key</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Constructor</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>key</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#MeasureVariant">MeasureVariant</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">ValidationMethod</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1332,7 +1566,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line54">line 54</a>
+        <a href="core_Liqueur.js.html">core/Liqueur.js</a>, <a href="core_Liqueur.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -1348,33 +1582,429 @@
 
 
 
+            
+                
+<h4 class="name" id="MeasureVariant">MeasureVariant</h4>
 
 
 
 
 
 
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
 
 
 
-<h5>Returns:</h5>
-
-        
 
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
+<dl class="details">
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data_Measure.js.html">data/Measure.js</a>, <a href="data_Measure.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="Translatable">Translatable</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+|
+
+<span class="param-type"><a href="global.html#TranslatableObject">TranslatableObject</a></span>
+|
+
+<span class="param-type"><a href="global.html#TranslatableObjectFull">TranslatableObjectFull</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="i18n_Translator.js.html">i18n/Translator.js</a>, <a href="i18n_Translator.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="TranslatableObject">TranslatableObject</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>TranslatableObject.code</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>code from language pack</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TranslatableObject.data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>data for default {value} tag</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="i18n_Translator.js.html">i18n/Translator.js</a>, <a href="i18n_Translator.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="TranslatableObjectFull">TranslatableObjectFull</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>TranslatableObjectFull.code</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>code from language pack</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>TranslatableObjectFull.data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, any></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>any data</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="i18n_Translator.js.html">i18n/Translator.js</a>, <a href="i18n_Translator.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
 
 
 
@@ -1394,13 +2024,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component_Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#result">result</a></li><li><a href="global.html">validation_map</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 03:53:08 GMT+0600 (Omsk Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 17:01:17 GMT+0600 (Omsk Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

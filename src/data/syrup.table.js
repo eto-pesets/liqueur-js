@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sucrose solution reference data table derived from
+ * Sucrose solution reference data table derived from
  * the USDA conversion charts.
  *
  * The dataset has been adapted, reformatted, corrected for known
@@ -13,25 +13,38 @@
  * yields [1.7, 17].
  * Searching for [1.5, X] in a table [[1, 10], [2, 50]]
  * yields [1.5, 30].
+ * 
+ * @hideconstructor
  */
 
-let data;
+class SyrupTable {
+    static COL_WW = 0;
+    static COL_DENSITY = 1;
+    static COL_WV = 2;
+    static COL_VV = 3;
+    static COL_REFRACTION = 4;
+    static data = null;
 
-export default {
-    COL_WW: 0,
-    COL_DENSITY: 1,
-    COL_WV: 2,
-    COL_PV: 3,
-    COL_REFRACTION: 4,
-    lookup(value, col_lookup, col_result, inverse) {
+    /**
+     * Search the table for a given value and get the corresponding value
+     * 
+     * @function SyrupTable.lookup
+     * @param {number} value - Reference value
+     * @param {number} col_lookup - Reference column
+     * @param {number} col_result - Result column
+     * @param {boolean} inverse - Whether to scan from the end of the table
+     * @returns {number}
+     * @throws {Error}
+     */
+    static lookup(value, col_lookup, col_result, inverse) {
         let k1, k2, pos1, pos2;
-        for (let i = 0; i < data.length - 1; i++) {
-            let x1 = inverse ? data.length - i - 1 : i,
+        for (let i = 0; i < this.data.length - 1; i++) {
+            let x1 = inverse ? this.data.length - i - 1 : i,
                 x2 = inverse ? x1 - 1 : x1 + 1;
-            if (value > data[x2][col_lookup]) continue;
-            let d1 = Math.abs(data[x1][col_lookup] - value),
-                d2 = Math.abs(data[x2][col_lookup] - value),
-                d3 = data[x2][col_lookup] - data[x1][col_lookup];
+            if (value > this.data[x2][col_lookup]) continue;
+            let d1 = Math.abs(this.data[x1][col_lookup] - value),
+                d2 = Math.abs(this.data[x2][col_lookup] - value),
+                d3 = this.data[x2][col_lookup] - this.data[x1][col_lookup];
             pos1 = x1;
             pos2 = x2;
             k1 = (d3 - d1)/d3;
@@ -40,13 +53,14 @@ export default {
         }
         if (typeof pos1 == 'undefined')
             throw new Error('Not found');
-        return data[pos1][col_result] * k1 + data[pos2][col_result] * k2;
+        return this.data[pos1][col_result] * k1 + this.data[pos2][col_result] * k2;
     }
 }
+export { SyrupTable }
 
-data = 
+SyrupTable.data = 
 /*
-%w/w   	Density   	w/v       	p/v         Refractive index
+%w/w   	Density   	%w/v       	%v/v         Refractive index
 */
 (
 `0.000	0.998000	0.000000	0.000000	1.3330

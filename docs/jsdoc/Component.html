@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Alcohol</title>
+    <title>JSDoc: Class: Component</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Alcohol</h1>
+    <h1 class="page-title">Class: Component</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Alcohol<span class="signature">(value, measure)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Component<span class="signature">(ingredient, quantity, measure)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>Ethanol and water solution</p></div>
+            <div class="class-description"><p>Container for ingredient to use in Composition</p></div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Alcohol"><span class="type-signature"></span>new Alcohol<span class="signature">(value, measure)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Component"><span class="type-signature"></span>new Component<span class="signature">(ingredient, quantity, measure)</span><span class="type-signature"></span></h4>
     
 
     
@@ -85,7 +85,30 @@
 
         <tr>
             
-                <td class="name"><code>value</code></td>
+                <td class="name"><code>ingredient</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Ingredient.html">Ingredient</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>quantity</code></td>
             
 
             <td class="type">
@@ -114,7 +137,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#MeasureVariant">MeasureVariant</a></span>
+<span class="param-type"><a href="global.html#Measure">Measure</a></span>
 
 
             
@@ -165,7 +188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Alcohol.js.html">core/Alcohol.js</a>, <a href="core_Alcohol.js.html#line11">line 11</a>
+        <a href="core_Component.js.html">core/Component.js</a>, <a href="core_Component.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -199,17 +222,6 @@
     </div>
 
     
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li><a href="Ingredient.html">Ingredient</a></li>
-    </ul>
-
-
-    
 
     
 
@@ -217,7 +229,7 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="Alcohol.html">Alcohol</a></dt>
+            <dt><a href="Component.html">Component</a></dt>
             <dd></dd>
         </dl>
     
@@ -229,240 +241,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="density"><span class="type-signature"></span>density<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>density</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Ingredient.html#density">Ingredient#density</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Ingredient.js.html">core/Ingredient.js</a>, <a href="core_Ingredient.js.html#line9">line 9</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="type"><span class="type-signature"></span>type<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#IngredientType">IngredientType</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Ingredient.html#type">Ingredient#type</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Ingredient.js.html">core/Ingredient.js</a>, <a href="core_Ingredient.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -473,7 +251,7 @@
     
 
     
-    <h4 class="name" id="attr"><span class="type-signature"></span>attr<span class="signature">(name, value<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {this}</span></h4>
+    <h4 class="name" id="fget"><span class="type-signature"></span>fget<span class="signature">(measure, precision<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Translatable">Translatable</a>}</span></h4>
     
 
     
@@ -481,220 +259,7 @@
 
 
 <div class="description">
-    <p>Shorthand getter/setter for attributes</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object.&lt;string, any></span>
-|
-
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">any</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Ingredient.html#attr">Ingredient#attr</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Ingredient.js.html">core/Ingredient.js</a>, <a href="core_Ingredient.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">this</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>ingredient.attr({ name: 'syrup', type: 'fruit' }); // set multiple
-ingredient.attr('name', 'syrup'); // set
-ingredient.attr('name'); // get</code></pre>
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="fget"><span class="type-signature"></span>fget<span class="signature">(measure, precision<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Get human-readable Ingredient measurment with a given precision</p>
+    <p>Get human-readable Component or Ingredient measurement with a given precision</p>
 </div>
 
 
@@ -822,11 +387,6 @@ ingredient.attr('name'); // get</code></pre>
     
 
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Ingredient.html#fget">Ingredient#fget</a>
-    </li></ul></dd>
-    
 
     
 
@@ -847,7 +407,7 @@ ingredient.attr('name'); // get</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Ingredient.js.html">core/Ingredient.js</a>, <a href="core_Ingredient.js.html#line65">line 65</a>
+        <a href="core_Component.js.html">core/Component.js</a>, <a href="core_Component.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -883,7 +443,7 @@ ingredient.attr('name'); // get</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type"><a href="global.html#Translatable">Translatable</a></span>
 
 
     </dd>
@@ -909,7 +469,7 @@ ingredient.attr('name'); // get</code></pre>
 
 
 <div class="description">
-    <p>Get Ingredient measurement</p>
+    <p>Get Component or Ingredient measurement</p>
 </div>
 
 
@@ -982,11 +542,6 @@ ingredient.attr('name'); // get</code></pre>
     
 
     
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
-        <a href="Ingredient.html#get">Ingredient#get</a>
-    </li></ul></dd>
-    
 
     
 
@@ -1007,7 +562,7 @@ ingredient.attr('name'); // get</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_Alcohol.js.html">core/Alcohol.js</a>, <a href="core_Alcohol.js.html#line30">line 30</a>
+        <a href="core_Component.js.html">core/Component.js</a>, <a href="core_Component.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -1044,6 +599,317 @@ ingredient.attr('name'); // get</code></pre>
     <dd>
         
 <span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="is"><span class="type-signature"></span>is<span class="signature">(constructor)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Whether ingredient is of this class</p>
+<p>Usage: myComponent.is(Alcohol)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>constructor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Constructor</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_Component.js.html">core/Component.js</a>, <a href="core_Component.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="scale"><span class="type-signature"></span>scale<span class="signature">(k)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Scale all ingredients by K</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>k</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="core_Component.js.html">core/Component.js</a>, <a href="core_Component.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
 
 
     </dd>

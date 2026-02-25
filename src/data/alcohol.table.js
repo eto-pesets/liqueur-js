@@ -1,5 +1,5 @@
 /**
- * @fileoverview Ethanol–water reference data table based on the
+ * Ethanol–water reference data table based on the
  * "Laboratory Alcohol Table for Working Out Alcohol Strength"
  * published by HM Revenue & Customs.
  *
@@ -14,24 +14,36 @@
  * yields [1.7, 17].
  * Searching for [1.5, X] in a table [[1, 10], [2, 50]]
  * yields [1.5, 30].
+ * 
+ * @hideconstructor
  */
-
-let data;
-
-export default {
-    COL_DENSITY: 2,
-    COL_VV: 0,
-    COL_WW: 1,
-    COL_WV: 3,
-    lookup(value, col_lookup, col_result, inverse) {
+class AlcoholTable {
+    static COL_DENSITY = 2;
+    static COL_VV = 0;
+    static COL_WW = 1;
+    static COL_WV = 3;
+    static data = null;
+    
+    /**
+     * Search the table for a given value and get the corresponding value
+     * 
+     * @function AlcoholTable.lookup
+     * @param {number} value - Reference value
+     * @param {number} col_lookup - Reference column
+     * @param {number} col_result - Result column
+     * @param {boolean} inverse - Whether to scan from the end of the table
+     * @returns {number}
+     * @throws {Error}
+     */
+    static lookup(value, col_lookup, col_result, inverse) {
         let k1, k2, pos1, pos2;
-        for (let i = 0; i < data.length - 1; i++) {
-            let x1 = inverse ? data.length - i - 1 : i,
+        for (let i = 0; i < this.data.length - 1; i++) {
+            let x1 = inverse ? this.data.length - i - 1 : i,
                 x2 = inverse ? x1 - 1 : x1 + 1;
-            if (value > data[x2][col_lookup]) continue;
-            let d1 = Math.abs(data[x1][col_lookup] - value),
-                d2 = Math.abs(data[x2][col_lookup] - value),
-                d3 = data[x2][col_lookup] - data[x1][col_lookup];
+            if (value > this.data[x2][col_lookup]) continue;
+            let d1 = Math.abs(this.data[x1][col_lookup] - value),
+                d2 = Math.abs(this.data[x2][col_lookup] - value),
+                d3 = this.data[x2][col_lookup] - this.data[x1][col_lookup];
             pos1 = x1;
             pos2 = x2;
             k1 = (d3 - d1)/d3;
@@ -40,11 +52,13 @@ export default {
         }
         if (typeof pos1 == 'undefined')
             throw new Error('Not found: '+value+' in '+col_lookup);
-        return data[pos1][col_result] * k1 + data[pos2][col_result] * k2;
+        return this.data[pos1][col_result] * k1 + this.data[pos2][col_result] * k2;
     }
 }
 
-data = (
+export { AlcoholTable }
+
+AlcoholTable.data = (
 /*
 Density   	v/v       	w/w       	w/v
 */

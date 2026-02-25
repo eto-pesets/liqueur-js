@@ -1,26 +1,33 @@
-import { Measure } from "../constants/Measure.js";
-import { Density } from "../constants/Density.js";
+import { Measure } from "../data/Measure.js";
+import { Density } from "../data/Density.js";
 
 import { Component } from "./Component.js";
 import { CalculationError } from "./CalculationError.js";
 
-import AlcoholTable from "../data/alcohol.table.js";
-import SyrupTable from "../data/syrup.table.js";
+import { AlcoholTable } from "../data/alcohol.table.js";
+import { SyrupTable } from "../data/syrup.table.js";
 
 /**
  * Conversions between units
+ * 
+ * @hideconstructor
  */
-export class Conversion {
+class Conversion {
 	/**
+	 * @static
 	 * @prop {number} correction - multiplier for complex compositions to avoid rounding errors while mixing
 	 */
 	static correction = 0.9999;
 	/**
-	 * Facade function for converting frome anything to anything
+	 * Facade function for converting from anything to anything
 	 *
-	 * @param {string} ingredient - lowercase of a class (Syrup -> "syrup")
+	 * @static
+	 * @param {IngredientType} ingredient
 	 * @param {MeasureVariant} from
 	 * @param {MeasureVariant} to
+	 * @param {number} value
+	 * @returns {number}
+	 * @throws {CalculationError}
 	 */
 	static convert(ingredient, from, to, value) {
 		if (from == to) return value;
@@ -35,107 +42,103 @@ export class Conversion {
 		let result = Conversion.conversion_map[ingredient][from][to](value);
 		return result;
 	}
-	/**
-	 * Validation functions
-	 *
-	 * @static
-	 * @var {Object} validation_map
-	 * @property {MeasureVariant} validation_map
-	 * @param {MeasureVariant} to
-	 */
 	static validation_map = {
 		syrup: {
 			[Measure.DENSITY]: (value) =>
 				value >= Density.WATER && value <= Density.SUCROSE,
 			[Measure.WV]: (value) => value >= 0 || value <= Density.SUCROSE,
 			[Measure.BRIX]: (value) => value >= 0 && value <= 100,
-			[Measure.PV]: (value) => value >= 0 && value <= 1,
+			[Measure.VV]: (value) => value >= 0 && value <= 1,
 		},
 		alcohol: {
 			[Measure.DENSITY]: (value) =>
 				value <= Density.WATER && value >= Density.ETHANOL,
 			[Measure.WV]: (value) => value >= 0 || value <= Density.ETHANOL,
-			[Measure.PV]: (value) => value >= 0 && value <= 1,
+			[Measure.VV]: (value) => value >= 0 && value <= 1,
 			[Measure.ABV]: (value) => value >= 0 && value <= 100,
-			[Measure.PW]: (value) => value >= 0 && value <= 1,
+			[Measure.WW]: (value) => value >= 0 && value <= 1,
 		},
 	};
 	static conversion_map = {
 		ingredient: {},
 		syrup: {
 			[Measure.DENSITY]: {
-				[Measure.PW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW),
+				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW),
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WV),
 				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW) * 100,
-				[Measure.PV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_PV),
+				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_VV),
 			},
-			[Measure.PW]: {
+			[Measure.WW]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_DENSITY),
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_WV),
 				[Measure.BRIX]: (value) => value * 100,
-				[Measure.PV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_PV),
+				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_VV),
 			},
 			[Measure.BRIX]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_DENSITY),
 				[Measure.WV]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_WV),
-				[Measure.PW]: (value) => value * 0.01,
-				[Measure.PV]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_PV),
+				[Measure.WW]: (value) => value * 0.01,
+				[Measure.VV]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_VV),
 			},
 			[Measure.WV]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_DENSITY),
-				[Measure.PW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW),
+				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW),
 				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW) * 100,
-				[Measure.PV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_PV),
+				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_VV),
 			},
-			[Measure.PV]: {
-				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_PV, SyrupTable.COL_DENSITY),
-				[Measure.PW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_PV, SyrupTable.COL_WW),
-				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_PV, SyrupTable.COL_WW) * 100,
-				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_PV, SyrupTable.COL_WV),
+			[Measure.VV]: {
+				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_DENSITY),
+				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW),
+				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW) * 100,
+				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WV),
 			},
 		},
 		alcohol: {
 			[Measure.DENSITY]: {
 				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_VV, true) * 100,
-				[Measure.PV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_VV, true),
-				[Measure.PW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WW, true),
+				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_VV, true),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WV, true),
 			},
-			[Measure.PV]: {
+			[Measure.VV]: {
 				[Measure.ABV]: (value) => value * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
-				[Measure.PW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
 			},
 			[Measure.ABV]: {
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
-				[Measure.PW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
-				[Measure.PV]: (value) => value * 0.01,
+				[Measure.VV]: (value) => value * 0.01,
 			},
-			[Measure.PW]: {
+			[Measure.WW]: {
 				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true) * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_DENSITY),
-				[Measure.PV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true),
+				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_WV, true),
 			},
 			[Measure.WV]: {
 				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true) * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_DENSITY, true),
-				[Measure.PW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true),
-				[Measure.PV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true),
+				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true),
 			},
 		},
 	};
 	/**
+	 * Binary search method for really complex things
 	 *
+	 * @static
 	 * @param {Function} callback - callback function, must take 1 number argument
 	 * @param {number} target - value to get from closure
 	 * @param {number} min - min value of argument to search
 	 * @param {number} max - max value of argument
 	 * @param {number} [precision=0.00001] - precision to target
 	 * @param {boolean} [inverse=false] - inverse search (if result is bigger than target, the argument gets smaller)
-	 * @returns
+	 * 
+	 * @returns {number}
+	 * @throws {CalculationError}
 	 */
 	static binary_search(callback, target, min, max, precision, inverse) {
 		precision = precision || 0.00001;
@@ -182,3 +185,5 @@ export class Conversion {
 		return Math.round(result / precision) * precision;
 	}
 }
+
+export { Conversion };
