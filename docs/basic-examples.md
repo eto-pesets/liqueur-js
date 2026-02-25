@@ -12,7 +12,7 @@ let SimpleSyrup = new Syrup(50, Measure.BRIX);
 let info = {
     density: SimpleSyrup.get(Measure.DENSITY), // g/ml
     sugar_content: SimpleSyrup.get(Measure.WV), // weight-to-volume, g/ml
-    sugar_percent: SimpleSyrup.get(Measure.PW) // weight-to-weight, g/g
+    sugar_percent: SimpleSyrup.get(Measure.WW) // weight-to-weight, g/g
 };
 
 console.log(SimpleSyrup, info);
@@ -34,7 +34,7 @@ const { Alcohol, Measure } = LiqueurJS;
 let Vodka = new Alcohol(40, Measure.ABV);
 let info = {
     density: Vodka.get(Measure.DENSITY),
-    alcohol_to_weight: Vodka.get(Measure.PW), // weight-to-weight, g/g
+    alcohol_to_weight: Vodka.get(Measure.WW), // weight-to-weight, g/g
     concentration: Vodka.get(Measure.WV) // weight-to-volume, g/ml
 };
 
