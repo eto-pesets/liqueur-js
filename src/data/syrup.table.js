@@ -14,6 +14,8 @@
  * Searching for [1.5, X] in a table [[1, 10], [2, 50]]
  * yields [1.5, 30].
  * 
+ * @source {@link https://www.ams.usda.gov/sites/default/files/media/SucroseConversionTableXV.pdf}
+ * 
  * @hideconstructor
  */
 

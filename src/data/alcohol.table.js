@@ -15,6 +15,8 @@
  * Searching for [1.5, X] in a table [[1, 10], [2, 50]]
  * yields [1.5, 30].
  * 
+ * @source {@link https://www.gov.uk/government/publications/laboratory-alcohol-table}
+ * 
  * @hideconstructor
  */
 class AlcoholTable {
@@ -2160,7 +2162,8 @@ Density   	v/v       	w/w       	w/v
 0.997600	0.000133	0.000133	0.000133
 0.997700	0.000100	0.000100	0.000100
 0.997800	0.000067	0.000067	0.000067
-0.997900	0.000033	0.000033	0.000033`).split('\n').map((line, index) => {
+0.997900	0.000033	0.000033	0.000033
+0.998000	0.000000	0.000000	0.000000`).split('\n').map((line, index) => {
     let items = line.split(/\s+/g);
     return [ items[1] * 1, items[2] * 1, items[0] * 1, items[3] * 1 ];
 }).reverse();

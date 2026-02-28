@@ -1,6 +1,4 @@
-# liqueur-js Basic examples
-
-[Back to README](../README.md)
+# [liqueur-js](../README.md) / Basic examples
 
 ### Syrup info:
 

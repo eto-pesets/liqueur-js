@@ -1,6 +1,4 @@
-# liqueur-js Advances examples
-
-[Back to README](../README.md)
+# [liqueur-js](../README.md) / Advances examples
 
 ## Liqueur composition based on main alcohol
 
@@ -34,7 +32,7 @@ for (let key in composition.components) {
 		case 'syrup':
 			recipe.push(`Rich syrup: ${round(component.get(Measure.ML))}ml`);
 			break;
-		case 'water':
+		case 'buffer':
 			recipe.push(
 				`Blackcurrant juice: ${round(component.get(Measure.ML))}ml`
 			);

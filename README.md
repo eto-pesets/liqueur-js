@@ -1,15 +1,13 @@
 # liqueur-js
 
-README
 - [liqueur-js](#liqueur-js)
   - [Installation](#installation)
     - [Composer](#composer)
     - [Laravel](#laravel)
   - [Quick start](#quick-start)
-  - [API](#api)
-  - [Basic examples](#basic-examples)
-  - [Advanced examples](#advanced-examples)
-  - [Physical model](#physical-model)
+  - [Documentation](#documentation)
+  - [Demo applications](#demo-applications)
+    - [Contributing](#contributing)
   - [License](#license)
 
 ## Installation
@@ -31,16 +29,27 @@ To use with Laravel you should publish library files to assets. For example: _(c
 ```php
 $this->publishes([
     // modules
-    __DIR__.'/../../vendor/eto-pesets/liqueur-js/src' => public_path('assets/js/eto-pesets/liqueur-js/src'),
+    __DIR__.'/../../vendor/eto-pesets/liqueur-js/src' => public_path('assets/js/liqueur-js/src'),
     // browser bundle
-    __DIR__.'/../../vendor/eto-pesets/liqueur-js/dist' => public_path('assets/js/eto-pesets/liqueur-js/dist'),
-], 'public');
+    __DIR__.'/../../vendor/eto-pesets/liqueur-js/dist' => public_path('assets/js/liqueur-js/dist'),
+], 'liqueur-js');
 ```
 
 2. Publish the files
 
 ```shell
-php artisan vendor:publish --tag=public
+php artisan vendor:publish --tag=liqueur-js
+```
+
+Or add this script to `composer.json` so it will run automatically after `composer update`
+
+```js
+
+"post-update-cmd": [
+    ...,
+    "@php artisan vendor:publish --tag=liqueur-js"
+],
+            
 ```
 
 ## Quick start
@@ -62,20 +71,38 @@ Browser bundle:
 </script>
 ```
 
-## API
+## Documentation
 
+Conceptual and technical documentation is available in the following sections:
 
-See [API](docs/api.md) and [local](docs/jsdoc/index.html) and [hosted](https://pesets.tech/liqueur-js-docs) JSDoc reference
+ - **API**  
+    - [API overview](docs/api.md)
+    - [local](docs/jsdoc/index.html) or [hosted](https://pesets.tech/liqueur-js/jsdoc) JSDoc reference
+ - **Examples**
+   - [Basic examples](docs/basic-examples.md)
+   - [Advanced examples](docs/advanced-examples.md)
+ - **Model description**
+   - [Physical model](docs/physical-model.md)
 
-## Basic examples
+## Demo applications
 
-See [Basic examples](docs/basic-examples.md)
+See [Composition demo](https://pesets.tech/liqueur-js/composition) and [Liqueur calculator](https://pesets.tech/liqueur-js/calculator)
 
-## Advanced examples
+### Contributing
 
-See [Advanced examples](docs/advanced-examples.md)
+Contributions are welcome.
 
-## Physical model
+If you would like to help improve the project, the most valuable contributions at the moment are:
+
+- **Language files**  (`i18n/{code}.js`)  
+  Expanding and improving translations.
+
+- **Documentation improvements** (`*.md`, `JSDoc`)  
+  Enhancements to Markdown documentation and JSDoc reference:
+  - clarifications
+  - examples
+  - corrections
+  - structural improvements
 
 ## License
 

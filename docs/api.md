@@ -1,6 +1,4 @@
-# liqueur-js API
-
-[Back to README](../README.md)
+# [liqueur-js](../README.md) / API
 
 ## 1. API Overview
 
