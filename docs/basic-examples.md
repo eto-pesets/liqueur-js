@@ -68,16 +68,16 @@ let composition = TripleSec.make({
 
 let recipe = [];
 composition.components.forEach(({ id, component }, index) => {
-    recipe.push(`${id}: ${round(component.get(Measure.ML), 0.1)}ml /  ${round(component.get(Measure.G), 0.1)}ml`);
+    recipe.push(`${id}: ${round(component.get(Measure.ML), 0.1)}ml /  ${round(component.get(Measure.G), 0.1)}g`);
 });
 
 console.log(recipe, composition.info());
 ```
 ```js
 [
-    'alcohol: 280ml /  226.9ml',
-    'syrup: 110.3ml /  175ml',
-    'buffer: 309.7ml /  309ml'
+    'alcohol: 280ml /  226.9g',
+    'syrup: 110.3ml /  175g',
+    'buffer: 309.7ml /  309g'
 ] {
     volume: 700,
     weight: 710.9172580868906,

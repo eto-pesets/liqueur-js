@@ -23,9 +23,8 @@ let composition = CremeDeCassis.make({
 });
 
 let recipe = [];
-for (let key in composition.components) {
-	let component = composition.components[key];
-	switch (key) {
+composition.components.forEach(({ id, component }, index) => {
+	switch (id) {
 		case 'alcohol':
 			recipe.push(`Cognac: ${round(component.get(Measure.ML))}ml`);
 			break;
@@ -38,7 +37,7 @@ for (let key in composition.components) {
 			);
 			break;
 	}
-}
+});
 
 console.log(recipe, composition.info());
 ```
