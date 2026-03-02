@@ -27,6 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { Measure } from '../data/Measure.js';
+import { CaloricContent } from '../data/CaloricContent.js';
 
 import { Ingredient } from './Ingredient.js';
 import { Water } from './Water.js';
@@ -47,11 +48,7 @@ import { CalculationError } from './CalculationError.js';
  * @extends {Ingredient}
  */
 export class Liqueur extends Ingredient {
-	alcohol = null;
-	syrup = null;
-	sugar = null;
-	spirit = null;
-	water = null;
+	composition = null;
 	density = null;
 	type = 'liqueur';
 	/**
@@ -70,84 +67,88 @@ export class Liqueur extends Ingredient {
 	constructor(alcohol, syrup) {
 		super();
 		let volume_left = 1000;
+		this.composition = new Composition();
 
 		if (syrup) {
-			this.syrup = syrup;
-			this.sugar = new Component(
+			let sugar = new Component(
 				new Syrup(1, Measure.WW),
-				this.syrup.get(Measure.WV) * volume_left,
+				syrup.get(Measure.WV) * volume_left,
 				Measure.G
 			);
-			volume_left -= this.sugar.get(Measure.ML);
+			volume_left -= sugar.get(Measure.ML);
 			if (volume_left &lt; 0)
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
-		} else {
-			this.syrup = new Component(new Syrup(1, Measure.VV), 0, Measure.G);
+			this.composition.add('sugar', sugar);
 		}
 
 		if (alcohol) {
-			this.alcohol = alcohol;
-
 			let target_abv = alcohol.get(Measure.VV) * (1000 / volume_left);
-
-			if (target_abv > 1)
+			if (target_abv > 1) {
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
+			}
 
-			let real_alcohol = new Alcohol(target_abv, Measure.VV),
-				volume = volume_left * real_alcohol.get(Measure.VV);
+			let real_alcohol = new Alcohol(target_abv * 100, Measure.ABV);
 
-			this.spirit = new Component(
-				new Alcohol(1, Measure.VV),
-				volume,
+			this.composition.add('alcohol', new Component(
+				real_alcohol,
+				volume_left,
 				Measure.ML
-			);
+			));
 
-			volume_left -= this.spirit.get(Measure.ML);
-			if (volume_left &lt; 0)
-				throw new CalculationError('IMPOSSIBLE_COMBINATION');
 		} else {
-			this.spirit = new Component(
-				new Alcohol(1, Measure.VV),
-				0,
+			this.composition.add('buffer', new Component(
+				new Water(),
+				volume_left,
 				Measure.ML
-			);
+			));
 		}
 
-		this.water = new Component(new Water(), volume_left, Measure.ML);
+		this.density = this.composition.total(Measure.G) / 1000;
 
-		this.density =
-			(this.water.get(Measure.G) +
-				this.sugar.get(Measure.G) +
-				this.spirit.get(Measure.G)) /
-			1000;
+		console.log(this.composition);
 	}
 	/**
-	 * Get basic information
-	 *
-	 * @returns {LiqueurInfo}
+	 * Create from composition
+	 * 
+	 * @static 
+	 * @param {Composition} composition
+	 * 
+	 * @returns {Liqueur}
 	 */
-	info(precision) {
-		precision = precision || 0.01;
-		return {
-			sugar: this.syrup
-				? {
-                    code: 'syrup_format_'+Measure.WV,
-                    data: round(this.syrup.get(Measure.WV), precision)
-                } : null,
-			abv: this.alcohol
-				? {
-                    code: 'format_'+Measure.ABV,
-                    data: round(this.alcohol.get(Measure.ABV), precision)
-                } : null,
-			density: {
-                    code: 'format_'+Measure.DENSITY,
-                    data: round(this.density, precision * 0.01)
-                }
-		};
+	static fromComposition(composition) {
+		let info = composition.info();
+		let syrup = info.sugar_content > 0 ? new Syrup(info.sugar_content, Measure.WV) : null,
+			alcohol = info.abv > 0 ? new Alcohol(info.abv, Measure.ABV) : null;
+		return new Liqueur(
+			alcohol, 
+			syrup
+		);
+	}
+	/**
+	 * @override
+	 */
+	get(measure) {
+		switch (measure) {
+			case Measure.DENSITY:
+				return this.density;
+				break;
+			case Measure.ABV:
+				return this.composition.info().abv;
+				break;
+			case Measure.CW:
+				let sugar = this.composition.component('sugar'),
+					alcohol = this.composition.component('alcohol');
+				let sugar_kcal = sugar ? sugar.get(Measure.CW) * sugar.get(Measure.G) * 0.001 / this.density : 0,
+					alcohol_kcal = alcohol ? alcohol.get(Measure.CW) * alcohol.get(Measure.G) * 0.001 / this.density : 0;
+				return 	sugar_kcal + alcohol_kcal;
+				break;
+		}
+		return null;
 	}
 
 	#composeSugar(composition, data, KV) {
-		if (this.sugar.get(Measure.G) > 0) {
+		let sugar = this.composition.info().sugar;
+		if (sugar > 0) {
 			// solution contains sugar
 			if (data.syrup) {
 				if (KV.syrup &lt; KV.max_syrup) {
@@ -165,11 +166,7 @@ export class Liqueur extends Ingredient {
 							KV.max_syrup * Conversion.correction
 						);
 
-						let goal_sugar =
-								(0.001 *
-									this.sugar.get(Measure.G).toFixed(2) *
-									1) /
-								mild_k,
+						let goal_sugar = (0.001 * sugar * 1) / mild_k,
 							wv1 = data.syrup.get(Measure.WV),
 							wv2 = data.fallback.syrup.get(Measure.WV);
 
@@ -180,7 +177,7 @@ export class Liqueur extends Ingredient {
 									goal_sugar,
 									0,
 									1,
-									0.0000001,
+									0.00000001,
 									wv1 &lt; wv2
 								),
 							k_fallback = mild_k - k_main;
@@ -205,7 +202,8 @@ export class Liqueur extends Ingredient {
 		}
 	}
 	#composeAlcohol(composition, data, KV) {
-		if (this.spirit.get(Measure.G) > 0) {
+		let abv = this.composition.info().abv;
+		if (abv > 0) {
 			// solution contains alcohol
 			if (data.alcohol) {
 				if (KV.alcohol &lt; KV.max_alcohol) {
@@ -229,7 +227,7 @@ export class Liqueur extends Ingredient {
 						let abv = {
 							main: data.alcohol.get(Measure.VV),
 							fallback: data.fallback.alcohol.get(Measure.VV),
-							target_mild: this.alcohol.get(Measure.VV) / mild_k,
+							target_mild: (abv * 0.01) / mild_k,
 						};
 						let k_main =
 								mild_k *
@@ -239,7 +237,7 @@ export class Liqueur extends Ingredient {
 									abv.target_mild,
 									0,
 									1,
-									0.000001,
+									0.0000001,
 									true
 								),
 							k_fallback = mild_k - k_main;
@@ -303,14 +301,17 @@ export class Liqueur extends Ingredient {
 			data.fallback.syrup = null;
 		}
 
-		if (this.spirit.get(Measure.G) > 0) {
-			let target_abv = this.alcohol.get(Measure.VV);
+		let info = this.composition.info();
+
+		if (info.abv > 0) {
+			let target_abv = info.abv;
+
 			if (data.alcohol) {
-				KV.alcohol = target_abv / data.alcohol.get(Measure.VV);
+				KV.alcohol = target_abv / data.alcohol.get(Measure.ABV);
 			}
 			if (data.fallback?.alcohol) {
 				KV.fallback_alcohol =
-					target_abv / data.fallback.alcohol.get(Measure.VV);
+					target_abv / data.fallback.alcohol.get(Measure.ABV);
 			}
 			if (KV.alcohol > 0) {
 				KV.min_alcohol = KV.alcohol;
@@ -323,8 +324,10 @@ export class Liqueur extends Ingredient {
 				KV.min_alcohol = KV.fallback_alcohol;
 			}
 		}
-		if (this.sugar.get(Measure.G) > 0) {
-			let target_sugar = this.syrup.get(Measure.WV);
+
+		if (info.sugar > 0) {
+			let target_sugar = info.sugar * 0.001;
+
 			if (data.syrup) {
 				KV.syrup = target_sugar / data.syrup.get(Measure.WV);
 			}
@@ -390,7 +393,7 @@ export class Liqueur extends Ingredient {
 				break;
 		}
 		let k = data.basis.value / current;
-
+		
 		composition.scale(k);
 
 		return composition;
@@ -409,12 +412,6 @@ export class Liqueur extends Ingredient {
  * @property {Object} [fallback] - fallback ingredients
  * @property {Alcohol} [fallback.alcohol] - fallback alcohol
  * @property {Syrup} [fallback.syrup] - fallback syrup/sugar
- */
-/**
- * @typedef {Object} LiqueurInfo
- * @property {(string|null)} sugar - human-readable sugar content
- * @property {(string|null)} abv - human-readable alcohol content
- * @property {string} density - human-readable ddensity
  */</code></pre>
         </article>
     </section>
@@ -425,13 +422,13 @@ export class Liqueur extends Ingredient {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CaloricContent">CaloricContent</a></li><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 17:01:17 GMT+0600 (Omsk Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Mar 03 2026 03:11:44 GMT+0600 (Omsk Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

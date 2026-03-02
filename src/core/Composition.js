@@ -1,6 +1,7 @@
 import { Measure } from "../data/Measure.js";
 
 import { Component } from "./Component.js";
+import { Liqueur } from "./Liqueur.js";
 import { Alcohol } from "./Alcohol.js";
 import { Syrup } from "./Syrup.js";
 import { VirtualIngredient } from "./VirtualIngredient.js";
@@ -108,15 +109,23 @@ export class Composition {
 			abs_spirit: 0,
 			abv: 0,
 			sugar: 0,
+			sugar_content: 0,
+			kcal: this.total(Measure.KCAL)
 		};
 		this.components.forEach(({ id, component }, index) => {
 			if (component.is(Alcohol))
 				result.abs_spirit += component.get(Measure.ML) * component.get(Measure.VV);
 			if (component.is(Syrup))
 				result.sugar += component.get(Measure.ML) * component.get(Measure.WV);
+			if (component.is(Liqueur)) {
+				let info = component.ingredient.composition.info();
+				result.sugar += info.sugar_content * component.get(Measure.ML);
+				result.abs_spirit += (info.abv * 0.01) * component.get(Measure.ML);
+			}
 		})
 
-		result.abv = result.abs_spirit / result.volume;
+		result.abv = result.abs_spirit / result.volume * 100;
+		result.sugar_content = result.sugar / result.volume;
 		result.density = result.weight / result.volume;
 		if (precision) {
 			for (let key in result)

@@ -29,4 +29,7 @@ export const Measure = {
 	OZ: 'volume_ounce',
 	G: 'mass_gram',
 	KG: 'mass_kilogram',
+	CW: 'caloric_content',
+	CAL: 'energy_calory',
+	KCAL: 'energy_kilocalory',
 };

@@ -88,6 +88,12 @@ export class Component {
 					29.5735295625
 				);
 				break;
+			case Measure.KCAL:
+				return this.weight * this.ingredient.get(Measure.CW);
+				break;
+			case Measure.CAL:
+				return this.weight * this.ingredient.get(Measure.CW) * 1000;
+				break;
 			default:
 				return this.ingredient.get(measure);
 				break;
