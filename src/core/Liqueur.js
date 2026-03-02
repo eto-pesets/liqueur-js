@@ -76,8 +76,6 @@ export class Liqueur extends Ingredient {
 		}
 
 		this.density = this.composition.total(Measure.G) / 1000;
-
-		console.log(this.composition);
 	}
 	/**
 	 * Create from composition
