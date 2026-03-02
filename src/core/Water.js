@@ -1,5 +1,6 @@
 import { Measure } from '../data/Measure.js';
 import { Density } from '../data/Density.js';
+import { CaloricContent } from '../data/CaloricContent.js';
 
 import { Ingredient } from "./Ingredient.js";
 
@@ -19,6 +20,9 @@ export class Water extends Ingredient {
 		switch (measure) {
 			case Measure.DENSITY:
 				return this.density;
+				break;
+			case Measure.CW:
+				return CaloricContent.WATER;
 				break;
 		}
 	}

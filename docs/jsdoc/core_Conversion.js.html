@@ -28,6 +28,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>import { Measure } from "../data/Measure.js";
 import { Density } from "../data/Density.js";
+import { CaloricContent } from "../data/CaloricContent.js";
 
 import { Component } from "./Component.js";
 import { CalculationError } from "./CalculationError.js";
@@ -95,30 +96,35 @@ class Conversion {
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WV),
 				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW) * 100,
 				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_VV),
+				[Measure.CW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW) * CaloricContent.SUCROSE,
 			},
 			[Measure.WW]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_DENSITY),
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_WV),
 				[Measure.BRIX]: (value) => value * 100,
 				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WW, SyrupTable.COL_VV),
+				[Measure.CW]: (value) => value * CaloricContent.SUCROSE,
 			},
 			[Measure.BRIX]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_DENSITY),
 				[Measure.WV]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_WV),
 				[Measure.WW]: (value) => value * 0.01,
 				[Measure.VV]: (value) => SyrupTable.lookup(value * 0.01, SyrupTable.COL_WW, SyrupTable.COL_VV),
+				[Measure.CW]: (value) => value * 0.01 * CaloricContent.SUCROSE,
 			},
 			[Measure.WV]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_DENSITY),
 				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW),
 				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW) * 100,
 				[Measure.VV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_VV),
+				[Measure.CW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_WV, SyrupTable.COL_WW) * CaloricContent.SUCROSE,
 			},
 			[Measure.VV]: {
 				[Measure.DENSITY]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_DENSITY),
 				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW),
 				[Measure.BRIX]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW) * 100,
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WV),
+				[Measure.CW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW) * CaloricContent.SUCROSE,
 			},
 		},
 		alcohol: {
@@ -127,30 +133,35 @@ class Conversion {
 				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_VV, true),
 				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WV, true),
+				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_DENSITY, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
 			},
 			[Measure.VV]: {
 				[Measure.ABV]: (value) => value * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
 				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
+				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
 			},
 			[Measure.ABV]: {
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
 				[Measure.WW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
 				[Measure.VV]: (value) => value * 0.01,
+				[Measure.CW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
 			},
 			[Measure.WW]: {
 				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true) * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_DENSITY),
 				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true),
 				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_WV, true),
+				[Measure.CW]: (value) => value * CaloricContent.ETHANOL,
 			},
 			[Measure.WV]: {
 				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true) * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_DENSITY, true),
 				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true),
 				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true),
+				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
 			},
 		},
 	};
@@ -224,13 +235,13 @@ export { Conversion };</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Alcohol.html">Alcohol</a></li><li><a href="AlcoholTable.html">AlcoholTable</a></li><li><a href="CalculationError.html">CalculationError</a></li><li><a href="Component.html">Component</a></li><li><a href="Composition.html">Composition</a></li><li><a href="Conversion.html">Conversion</a></li><li><a href="Ingredient.html">Ingredient</a></li><li><a href="Liqueur.html">Liqueur</a></li><li><a href="Syrup.html">Syrup</a></li><li><a href="SyrupTable.html">SyrupTable</a></li><li><a href="Translator.html">Translator</a></li><li><a href="VirtualIngredient.html">VirtualIngredient</a></li><li><a href="Water.html">Water</a></li></ul><h3>Global</h3><ul><li><a href="global.html#CaloricContent">CaloricContent</a></li><li><a href="global.html#Density">Density</a></li><li><a href="global.html#Lang">Lang</a></li><li><a href="global.html#Measure">Measure</a></li><li><a href="global.html#round">round</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Feb 25 2026 17:01:17 GMT+0600 (Omsk Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Mar 03 2026 03:48:44 GMT+0600 (Omsk Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

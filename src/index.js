@@ -13,6 +13,7 @@ import Lang from './i18n/index.js';
 
 import { Measure } from './data/Measure.js';
 import { Density } from './data/Density.js';
+import { CaloricContent } from './data/CaloricContent.js';
 
 import { Ingredient } from './core/Ingredient.js';
 import { VirtualIngredient } from './core/VirtualIngredient.js';

@@ -1,4 +1,5 @@
 import { Measure } from '../data/Measure.js';
+import { CaloricContent } from '../data/CaloricContent.js';
 import round from './round.js';
 
 /**
@@ -19,6 +20,9 @@ export class Ingredient {
 		switch (measure) {
 			case Measure.DENSITY:
 				return this.density;
+				break;
+			case Measure.CW:
+				return CaloricContent.WATER;
 				break;
 		}
 	}
