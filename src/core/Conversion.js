@@ -11,6 +11,30 @@ import { SyrupTable } from "../data/syrup.table.js";
 /**
  * Conversions between units
  * 
+ * Available conversions:
+ * 
+ * Alcohol:
+ * 
+ * |  ↓ from \ → to | DENSITY | ABV | VV  | WV  | WW  | CW  |
+ * |----------------|:-------:|:---:|:---:|:---:|:---:|:---:|
+ * | **DENSITY**    |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **ABV**        |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **VV**         |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **WV**         |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **WW**         |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **CW**         |  ✔      |  ✔  |  ✔  |  ✔  |  ✔  |  ✔  |
+ * 
+ * Syrup:
+ * 
+ * |  ↓ from \ → to | DENSITY | BRIX | VV  | WV  | WW  | CW  |
+ * |----------------|:-------:|:----:|:---:|:---:|:---:|:---:|
+ * | **DENSITY**    |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **BRIX**       |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **VV**         |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **WV**         |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **WW**         |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * | **CW**         |  ✔      |  ✔   |  ✔  |  ✔  |  ✔  |  ✔  |
+ * 
  * @hideconstructor
  */
 class Conversion {
@@ -29,6 +53,10 @@ class Conversion {
 	 * @param {number} value
 	 * @returns {number}
 	 * @throws {CalculationError}
+	 * 
+	 * @example
+	 * // returns 0.61501
+	 * Conversion.convert('syrup', Measure.BRIX, Measure.WV, 50)
 	 */
 	static convert(ingredient, from, to, value) {
 		if (from == to) return value;
@@ -61,7 +89,6 @@ class Conversion {
 		},
 	};
 	static conversion_map = {
-		ingredient: {},
 		syrup: {
 			[Measure.DENSITY]: {
 				[Measure.WW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_DENSITY, SyrupTable.COL_WW),
@@ -98,6 +125,13 @@ class Conversion {
 				[Measure.WV]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WV),
 				[Measure.CW]: (value) => SyrupTable.lookup(value, SyrupTable.COL_VV, SyrupTable.COL_WW) * CaloricContent.SUCROSE,
 			},
+			[Measure.CW]: {
+				[Measure.WW]: (value) => value / CaloricContent.SUCROSE,
+				[Measure.DENSITY]: (value) => SyrupTable.lookup(Conversion.convert('syrup', Measure.CW, Measure.WW, value), SyrupTable.COL_WW, SyrupTable.COL_DENSITY),
+				[Measure.BRIX]: (value) => Conversion.convert('syrup', Measure.CW, Measure.WW, value) * 100,
+				[Measure.WV]: (value) => SyrupTable.lookup(Conversion.convert('syrup', Measure.CW, Measure.WW, value), SyrupTable.COL_WW, SyrupTable.COL_WV),
+				[Measure.VV]: (value) => SyrupTable.lookup(Conversion.convert('syrup', Measure.CW, Measure.WW, value), SyrupTable.COL_WW, SyrupTable.COL_VV),
+			},
 		},
 		alcohol: {
 			[Measure.DENSITY]: {
@@ -110,30 +144,37 @@ class Conversion {
 			[Measure.VV]: {
 				[Measure.ABV]: (value) => value * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
-				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
-				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
-				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
+				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW),
+				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WV),
+				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_VV, AlcoholTable.COL_WW) * CaloricContent.ETHANOL,
 			},
 			[Measure.ABV]: {
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_DENSITY),
-				[Measure.WW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true),
-				[Measure.WV]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WV, true),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, ),
+				[Measure.WV]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WV, ),
 				[Measure.VV]: (value) => value * 0.01,
-				[Measure.CW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
+				[Measure.CW]: (value) => AlcoholTable.lookup(value * 0.01, AlcoholTable.COL_VV, AlcoholTable.COL_WW, ) * CaloricContent.ETHANOL,
 			},
 			[Measure.WW]: {
-				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true) * 100,
+				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, ) * 100,
 				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_DENSITY),
-				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, true),
-				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_WV, true),
+				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_VV, ),
+				[Measure.WV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WW, AlcoholTable.COL_WV, ),
 				[Measure.CW]: (value) => value * CaloricContent.ETHANOL,
 			},
 			[Measure.WV]: {
-				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true) * 100,
-				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_DENSITY, true),
-				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true),
-				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, true),
-				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, true) * CaloricContent.ETHANOL,
+				[Measure.ABV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, ) * 100,
+				[Measure.DENSITY]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_DENSITY, ),
+				[Measure.WW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, ),
+				[Measure.VV]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_VV, ),
+				[Measure.CW]: (value) => AlcoholTable.lookup(value, AlcoholTable.COL_WV, AlcoholTable.COL_WW, ) * CaloricContent.ETHANOL,
+			},
+			[Measure.CW]: {
+				[Measure.WW]: (value) => value / CaloricContent.ETHANOL,
+				[Measure.DENSITY]: (value) => AlcoholTable.lookup(Conversion.convert('alcohol', Measure.CW, Measure.WW, value), AlcoholTable.COL_WW, AlcoholTable.COL_DENSITY),
+				[Measure.ABV]: (value) => Conversion.convert('alcohol', Measure.CW, Measure.VV, value) * 100,
+				[Measure.WV]: (value) => AlcoholTable.lookup(Conversion.convert('alcohol', Measure.CW, Measure.WW, value), AlcoholTable.COL_WW, AlcoholTable.COL_WV),
+				[Measure.VV]: (value) => AlcoholTable.lookup(Conversion.convert('alcohol', Measure.CW, Measure.WW, value), AlcoholTable.COL_WW, AlcoholTable.COL_VV),
 			},
 		},
 	};

@@ -95,6 +95,16 @@ export class Liqueur extends Ingredient {
 		);
 	}
 	/**
+	 * Get liqueur measurement
+	 * 
+	 * Available measures:
+	 * - Measure.BRIX
+	 * - Measure.DENSITY
+	 * - Measure.ABV
+	 * - Measure.CW
+	 * 
+	 * Other measurements can be derived from Liqueur.composition
+	 * 
 	 * @override
 	 */
 	get(measure) {
@@ -104,6 +114,9 @@ export class Liqueur extends Ingredient {
 				break;
 			case Measure.ABV:
 				return this.composition.info().abv;
+				break;
+			case Measure.BRIX:
+				return Conversion.convert('syrup', Measure.WV, Measure.BRIX, this.composition.info().sugar_content);
 				break;
 			case Measure.CW:
 				let sugar = this.composition.component('sugar'),

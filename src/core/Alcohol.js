@@ -25,6 +25,16 @@ export class Alcohol extends Ingredient {
 		);
 	}
 	/**
+	 * Get alcohol measurement
+	 * 
+	 * Available measures:
+	 * - Measure.ABV
+	 * - Measure.DENSITY
+	 * - Measure.WW
+	 * - Measure.WV
+	 * - Measure.VV
+	 * - Measure.CW
+	 * 
 	 * @override
 	 */
 	get(measure) {
