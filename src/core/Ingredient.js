@@ -11,7 +11,11 @@ export class Ingredient {
 	/** @prop {IngredientType} type */
 	type = 'ingredient';
 	/**
-	 * Get Ingredient measurement
+	 * Get ingredient measurement
+	 * 
+	 * Available measures:
+	 * - Measure.DENSITY
+	 * - Measure.CW
 	 *
 	 * @param {MeasureVariant} measure
 	 * @returns {number}

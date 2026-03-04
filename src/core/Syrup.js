@@ -25,6 +25,16 @@ export class Syrup extends Ingredient {
 		);
 	}
 	/**
+	 * Get syrup measurement
+	 * 
+	 * Available measures:
+	 * - Measure.BRIX
+	 * - Measure.DENSITY
+	 * - Measure.WW
+	 * - Measure.WV
+	 * - Measure.VV
+	 * - Measure.CW
+	 * 
 	 * @override
 	 */
 	get(measure) {

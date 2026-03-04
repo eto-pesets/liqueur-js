@@ -14,6 +14,12 @@ export class Water extends Ingredient {
 	density = Density.WATER;
 	type = 'water';
 	/**
+	 * Get water measurement
+	 * 
+	 * Available measures:
+	 * - Measure.DENSITY
+	 * - Measure.CW
+	 * 
 	 * @override
 	 */
 	get(measure) {
