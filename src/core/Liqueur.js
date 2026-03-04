@@ -185,8 +185,8 @@ export class Liqueur extends Ingredient {
 		}
 	}
 	#composeAlcohol(composition, data, KV) {
-		let abv = this.composition.info().abv;
-		if (abv > 0) {
+		let goal_abv = this.composition.info().abv;
+		if (goal_abv > 0) {
 			// solution contains alcohol
 			if (data.alcohol) {
 				if (KV.alcohol < KV.max_alcohol) {
@@ -210,7 +210,7 @@ export class Liqueur extends Ingredient {
 						let abv = {
 							main: data.alcohol.get(Measure.VV),
 							fallback: data.fallback.alcohol.get(Measure.VV),
-							target_mild: (abv * 0.01) / mild_k,
+							target_mild: (goal_abv * 0.01) / mild_k,
 						};
 						let k_main =
 								mild_k *
