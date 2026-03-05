@@ -71,21 +71,46 @@ class Conversion {
 		let result = Conversion.conversion_map[ingredient][from][to](value);
 		return result;
 	}
+	/**
+	 * Facade function for validation
+	 *
+	 * @static
+	 * @param {IngredientType} ingredient
+	 * @param {MeasureVariant} measure
+	 * @param {number} value
+	 * @returns {number}
+	 * @throws {CalculationError}
+	 * 
+	 * @example
+	 * // returns true
+	 * Conversion.validate('syrup', Measure.BRIX, 50)
+	 * // returns false
+	 * Conversion.validate('syrup', Measure.BRIX, 150)
+	 */
+	static validate(ingredient, measure, value) {
+		if (typeof Conversion.validation_map[ingredient][measure] != 'object')
+			throw new CalculationError('VALIDATION_UNAVAILABLE');
+		let result = 
+			(Conversion.validation_map[ingredient][measure].min <= value) &&
+			(Conversion.validation_map[ingredient][measure].max >= value);
+		return result;
+	}
 	static validation_map = {
 		syrup: {
-			[Measure.DENSITY]: (value) =>
-				value >= Density.WATER && value <= Density.SUCROSE,
-			[Measure.WV]: (value) => value >= 0 || value <= Density.SUCROSE,
-			[Measure.BRIX]: (value) => value >= 0 && value <= 100,
-			[Measure.VV]: (value) => value >= 0 && value <= 1,
+			[Measure.DENSITY]: { min: Density.WATER, max: Density.SUCROSE },
+			[Measure.BRIX]: { min: 0, max: 100 },
+			[Measure.WV]: { min: 0, max: Density.SUCROSE },
+			[Measure.WW]: { min: 0, max: 1 },
+			[Measure.VV]: { min: 0, max: 1 },
+			[Measure.CW]: { min: 0, max: CaloricContent.SUCROSE, },
 		},
 		alcohol: {
-			[Measure.DENSITY]: (value) =>
-				value <= Density.WATER && value >= Density.ETHANOL,
-			[Measure.WV]: (value) => value >= 0 || value <= Density.ETHANOL,
-			[Measure.VV]: (value) => value >= 0 && value <= 1,
-			[Measure.ABV]: (value) => value >= 0 && value <= 100,
-			[Measure.WW]: (value) => value >= 0 && value <= 1,
+			[Measure.DENSITY]: { min: Density.ETHANOL, max: Density.WATER },
+			[Measure.ABV]: { min: 0, max: 100 },
+			[Measure.WV]: { min: 0, max: Density.ETHANOL },
+			[Measure.WW]: { min: 0, max: 1 },
+			[Measure.VV]: { min: 0, max: 1 },
+			[Measure.CW]: { min: 0, max: CaloricContent.ETHANOL },
 		},
 	};
 	static conversion_map = {
