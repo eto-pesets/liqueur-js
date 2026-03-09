@@ -6,6 +6,7 @@
     - [Laravel](#laravel)
   - [Quick start](#quick-start)
   - [Documentation](#documentation)
+  - [Examples](#examples)
   - [Demo applications](#demo-applications)
     - [Contributing](#contributing)
   - [License](#license)
@@ -78,15 +79,16 @@ Conceptual and technical documentation is available in the following sections:
  - **API**  
     - [API overview](docs/api.md)
     - [local](docs/jsdoc/index.html) or [hosted](https://pesets.tech/liqueur-js/jsdoc) JSDoc reference
- - **Examples**
-   - [Basic examples](docs/basic-examples.md)
-   - [Advanced examples](docs/advanced-examples.md)
  - **Model description**
    - [Physical model](docs/physical-model.md)
 
+## Examples
+
+See [Examples](docs/examples/index.md)
+
 ## Demo applications
 
-See [Composition demo](https://pesets.tech/liqueur-js/composition) and [Liqueur calculator](https://pesets.tech/liqueur-js/calculator)
+See [Composition demo](https://pesets.tech/liqueur-js/composition), [Conversion demo](https://pesets.tech/liqueur-js/conversion) and [Liqueur calculator](https://pesets.tech/liqueur-js/calculator)
 
 ### Contributing
 

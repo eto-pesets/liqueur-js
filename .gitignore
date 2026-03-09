@@ -1,7 +1,7 @@
 # compiled output
 /tmp
 /out-tsc
-/test/
+/dev/
 /package-lock.json 
 /update.sh
 

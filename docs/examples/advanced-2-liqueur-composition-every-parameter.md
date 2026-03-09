@@ -1,94 +1,9 @@
-# [liqueur-js](../README.md) / Advances examples
-
-## Liqueur composition based on main alcohol
-
-_(Creme de Cassis using a bottle of cognac)_
-
-```js
-// import { Liqueur, Alcohol, Syrup, Measure, round } from '/path/to/src/index.js';
-const { Liqueur, Alcohol, Syrup, Measure, round } = LiqueurJS;
-
-let CremeDeCassis = new Liqueur(
-	new Alcohol(20, Measure.ABV), // 20% ABV
-	new Syrup(0.4, Measure.WV) // 400 g/l
-);
-let composition = CremeDeCassis.make({
-	alcohol: new Alcohol(40, Measure.ABV), // Cognac
-	syrup: new Syrup(66.67, Measure.BRIX), // Rich syrup
-	basis: {
-		source: 'alcohol',
-		value: 0.5,
-		measure: Measure.L,
-	},
-});
-
-let recipe = [];
-composition.components.forEach(({ id, component }, index) => {
-	switch (id) {
-		case 'alcohol':
-			recipe.push(`Cognac: ${round(component.get(Measure.ML))}ml`);
-			break;
-		case 'syrup':
-			recipe.push(`Rich syrup: ${round(component.get(Measure.ML))}ml`);
-			break;
-		case 'buffer':
-			recipe.push(
-				`Blackcurrant juice: ${round(component.get(Measure.ML))}ml`
-			);
-			break;
-	}
-});
-
-console.log(recipe, composition.info());
-```
-
-```js
-[
-    'Cognac: 500ml',
-    'Rich syrup: 452ml',
-    'Blackcurrant juice: 48ml'
-]
-{
-    volume: 1000,
-    weight: 1121.3316113015176,
-    density: 1.1213316113015175,
-    abs_spirit: 200,
-    abv: 0.2,
-    sugar: 399.99999999999966
-}
-```
-
-## Cherry liqueur
+## [liqueur-js](../../README.md) / [Examples](./index.md) / Complete liqueur composition
 
 _(using every `ConstructFrom` parameter, virtual ingredients, attributes, rounding and Translator)_
 
 ```js
-/*
-import {
-    Liqueur,
-    Alcohol,
-    Syrup,
-    Water,
-    VirtualIngredient,
-    Measure,
-    Component,
-    round,
-    Translator,
-    Lang
-} from '/path/to/src/index.js';
-*/
-const {
-	Liqueur,
-	Alcohol,
-	Syrup,
-	Water,
-	VirtualIngredient,
-	Measure,
-	Component,
-	round,
-    Translator,
-    Lang
-} = LiqueurJS;
+const {  Liqueur, Alcohol, Syrup, Water, VirtualIngredient, Measure, Component, round, Translator, Lang,  } = LiqueurJS;
 
 // initialize the Translator
 let t = new Translator('en', Lang.en);
@@ -146,7 +61,7 @@ composition.scaleTo(700, Measure.ML);
 // all values are rounded to 0.1
 let recipe = [];
 composition.components.forEach(({ id, component }, index) => {
-	let name = component.ingredient.getAttribute('name') || id,
+	let name = component.ingredient.attr('name') || id,
 		quantity =
 			(component.is(VirtualIngredient)
 				? ''
@@ -161,22 +76,10 @@ composition.components.forEach(({ id, component }, index) => {
 
 	recipe.push(`${name}${value}: ${quantity}`);
 });
+
+```
+Output:
 ```
 
-```js
-[
-    'Cherry Syrup 66.67° Brix: 197.8ml, 262.5g',
-    'Merlot 12% ABV: 117.4ml, 115.2g',
-    'Cognac 40% ABV: 384.8ml, 364.4g',
-    'Cherry juice: 0.1ml, 0.1g',
-    'Cinnamon sticks: 1.8g',
-    'Fresh or frozen cherries: 350g'
-] {
-    volume: 700,
-    weight: 742.127,
-    density: 1.06,
-    abs_spirit: 168,
-    abv: 0.24,
-    sugar: 175
-}
+
 ```
