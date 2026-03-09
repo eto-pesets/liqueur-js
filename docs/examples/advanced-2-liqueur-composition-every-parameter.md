@@ -77,9 +77,27 @@ composition.components.forEach(({ id, component }, index) => {
 	recipe.push(`${name}${value}: ${quantity}`);
 });
 
+console.log(recipe, composition.info());
+
 ```
 Output:
 ```
-
+[
+  'Cherry Syrup 66.67° Brix: 197.8ml, 262.5g',
+  'Merlot 12% ABV: 117.4ml, 115.2g',
+  'Cognac 40% ABV: 384.8ml, 364.4g',
+  'Cherry juice: 0.1ml, 0.1g',
+  'Cinnamon sticks: 1.8g',
+  'Fresh or frozen cherries: 350g'
+] {
+  volume: 700,
+  weight: 742.1266954167193,
+  density: 1.060180993452456,
+  abs_spirit: 167.99998177731246,
+  abv: 23.999997396758925,
+  sugar: 174.99999999999972,
+  sugar_content: 0.24999999999999958,
+  kcal: 1627.1104186097823
+}
 
 ```
