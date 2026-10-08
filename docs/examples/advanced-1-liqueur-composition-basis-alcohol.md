@@ -41,15 +41,15 @@ console.log(recipe, composition.info());
 ```
 Output:
 ```
-[ 'Cognac: 500ml', 'Rich syrup: 452ml', 'Blackcurrant juice: 48ml' ] {
-  volume: 1000.0000000000005,
-  weight: 1121.3316113015183,
-  density: 1.1213316113015177,
-  abs_spirit: 200.00000000000006,
-  abv: 19.999999999999996,
-  sugar: 399.99999999999983,
-  sugar_content: 0.39999999999999963,
-  kcal: 2703.7092719060965
+[ 'Rich syrup: 452ml', 'Cognac: 500ml', 'Blackcurrant juice: 52ml' ] {
+  volume: 1000.0740633112628,
+  weight: 1125.8016238292191,
+  density: 1.125718249408119,
+  abs_spirit: 200.00000000000003,
+  abv: 19.998518843474105,
+  sugar: 400.03024273545446,
+  sugar_content: 0.40000061736522524,
+  kcal: 2703.830242862802
 }
 
 ```

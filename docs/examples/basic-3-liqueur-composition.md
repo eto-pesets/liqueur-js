@@ -28,18 +28,18 @@ console.log(recipe, composition.info());
 Output:
 ```
 [
-  'alcohol: 280ml /  226.9g',
   'syrup: 110.3ml /  175g',
-  'buffer: 309.7ml /  309g'
+  'alcohol: 280.1ml /  226.9g',
+  'buffer: 329.2ml /  328.6g'
 ] {
   volume: 700,
-  weight: 710.9172580868906,
-  density: 1.0155960829812722,
-  abs_spirit: 265.9999999999999,
-  abv: 37.999999999999986,
-  sugar: 174.99999999999972,
-  sugar_content: 0.24999999999999958,
-  kcal: 2167.6445307999984
+  weight: 730.4921293505151,
+  density: 1.0435601847864502,
+  abs_spirit: 266.05365817051353,
+  abv: 38.0076654529305,
+  sugar: 174.99764669907765,
+  sugar_content: 0.2499966381415395,
+  kcal: 2167.931174440246
 }
 
 ```

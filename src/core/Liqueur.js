@@ -1,4 +1,5 @@
 import { Measure } from '../data/Measure.js';
+import { Density } from '../data/Density.js';
 import { CaloricContent } from '../data/CaloricContent.js';
 
 import { Ingredient } from './Ingredient.js';
@@ -47,7 +48,8 @@ export class Liqueur extends Ingredient {
 				syrup.get(Measure.WV) * volume_left,
 				Measure.G
 			);
-			volume_left -= sugar.get(Measure.ML);
+			let water_volume = (syrup.get(Measure.DENSITY) - syrup.get(Measure.WV)) / Density.WATER * 1000;
+			volume_left = water_volume;
 			if (volume_left < 0)
 				throw new CalculationError('IMPOSSIBLE_COMBINATION');
 			this.composition.add('sugar', sugar);
@@ -116,7 +118,8 @@ export class Liqueur extends Ingredient {
 				return this.composition.info().abv;
 				break;
 			case Measure.BRIX:
-				return Conversion.convert('syrup', Measure.WV, Measure.BRIX, this.composition.info().sugar_content);
+				let info = this.composition.info();
+				return info.sugar / info.weight * 100;
 				break;
 			case Measure.CW:
 				let sugar = this.composition.component('sugar'),
@@ -274,92 +277,113 @@ export class Liqueur extends Ingredient {
 			max_syrup: 0,
 		};
 
-		if (!data.alcohol && data.fallback.alcohol) {
+		data.fallback = data.fallback || {};
+
+		if (!data.alcohol && data.fallback && data.fallback.alcohol) {
 			data.alcohol = data.fallback.alcohol;
 			data.fallback.alcohol = null;
 		}
 
-		if (!data.syrup && data.fallback.syrup) {
+		if (!data.syrup && data.fallback && data.fallback.syrup) {
 			data.syrup = data.fallback.syrup;
 			data.fallback.syrup = null;
 		}
 
-		let info = this.composition.info();
+		let c = this.composition;
+		let goal = {
+			sugar_content: c.component('sugar')
+				? c.component('sugar').get(Measure.G)
+				: 0,
+			ethanol_content: c.component('alcohol')
+				? c.component('alcohol').get(Measure.WW) * c.component('alcohol').get(Measure.G)
+				: 0,
+		};
+		let buffer_volume_left = this.density * 1000 - goal.ethanol_content - goal.sugar_content;
 
-		if (info.abv > 0) {
-			let target_abv = info.abv;
+		let weight = {
+			syrup: data.syrup ? (goal.sugar_content / data.syrup.get(Measure.WW)) : 0,
+			fallback_syrup: data.fallback.syrup ? (goal.sugar_content / data.fallback.syrup.get(Measure.WW)) : 0,
+			alcohol: data.alcohol ? (goal.ethanol_content / data.alcohol.get(Measure.WW)) : 0,
+			fallback_alcohol: data.fallback.alcohol ? (goal.ethanol_content / data.fallback.alcohol.get(Measure.WW)) : 0,
+			total: this.density * 1000,
+		}
+		let weight_result = {
+			syrup: weight.syrup,
+			fallback_syrup: 0,
+			alcohol: weight.alcohol,
+			fallback_alcohol: 0,
+			total: weight.total,
+		}
+		let deficit = () => weight_result.syrup
+			+ weight_result.fallback_syrup
+			+ weight_result.alcohol
+			+ weight_result.fallback_alcohol
+			- weight.total;
 
-			if (data.alcohol) {
-				KV.alcohol = target_abv / data.alcohol.get(Measure.ABV);
-			}
-			if (data.fallback?.alcohol) {
-				KV.fallback_alcohol =
-					target_abv / data.fallback.alcohol.get(Measure.ABV);
-			}
-			if (KV.alcohol > 0) {
-				KV.min_alcohol = KV.alcohol;
-				if (
-					KV.fallback_alcohol > 0 &&
-					KV.fallback_alcohol < KV.min_alcohol
-				)
-					KV.min_alcohol = KV.fallback_alcohol;
-			} else if (KV.fallback_alcohol > 0) {
-				KV.min_alcohol = KV.fallback_alcohol;
+		const EPS = weight.total * 1e-9;
+		let buf = weight.total - weight.syrup - weight.alcohol, D = 0;
+		if (buf < 0) {
+			D = deficit();
+			buf = 0;
+			if (data.priority && data.priority == 'syrup') {
+				let x = Math.min(1, D / (weight.alcohol - weight.fallback_alcohol));
+				weight_result.alcohol = weight.alcohol * (1 - x);
+				weight_result.fallback_alcohol = weight.fallback_alcohol * x;
+				D = deficit();
+				if (D > EPS) {
+					x = Math.min(1, D / (weight.syrup - weight.fallback_syrup));
+					weight_result.syrup = weight.syrup * (1 - x);
+					weight_result.fallback_syrup = weight.fallback_syrup * x;
+					D = deficit();
+				}
+				if (D > EPS) {
+					throw new CalculationError('IMPOSSIBLE_COMBINATION');
+				}
+			} else {
+				let x = Math.min(1, D / (weight.syrup - weight.fallback_syrup));
+				weight_result.syrup = weight.syrup * (1 - x);
+				weight_result.fallback_syrup = weight.fallback_syrup * x;
+				D = deficit();
+				if (D > EPS) {
+					x = Math.min(1, D / (weight.alcohol - weight.fallback_alcohol));
+					weight_result.alcohol = weight.alcohol * (1 - x);
+					weight_result.fallback_alcohol = weight.fallback_alcohol * x;
+					D = deficit();
+				}
+				if (D > EPS) {
+					throw new CalculationError('IMPOSSIBLE_COMBINATION');
+				}
 			}
 		}
-
-		if (info.sugar > 0) {
-			let target_sugar = info.sugar * 0.001;
-
-			if (data.syrup) {
-				KV.syrup = target_sugar / data.syrup.get(Measure.WV);
-			}
-			if (data.fallback?.syrup) {
-				KV.fallback_syrup =
-					target_sugar / data.fallback.syrup.get(Measure.WV);
-			}
-			if (KV.syrup > 0) {
-				KV.min_syrup = KV.syrup;
-				if (KV.fallback_syrup > 0 && KV.fallback_syrup < KV.min_syrup)
-					KV.min_syrup = KV.fallback_syrup;
-			} else if (KV.fallback_syrup > 0) {
-				KV.min_syrup = KV.fallback_syrup;
-			}
+		if (weight_result.syrup > 0) {
+			composition.add('syrup', new Component(data.syrup, weight_result.syrup, Measure.G));
 		}
-
-		if (KV.min_alcohol + KV.min_syrup > 1)
-			throw new CalculationError('IMPOSSIBLE_COMBINATION');
-
-		KV.max_alcohol = 1 - KV.min_syrup;
-		KV.max_syrup = 1 - KV.min_alcohol;
-
-		if (data.priority && data.priority == 'syrup') {
-			this.#composeSugar(composition, data, KV);
-			this.#composeAlcohol(composition, data, KV);
-		} else {
-			this.#composeAlcohol(composition, data, KV);
-			this.#composeSugar(composition, data, KV);
+		if (weight_result.fallback_syrup > 0) {
+			composition.add('fallback_syrup', new Component(data.fallback.syrup, weight_result.fallback_syrup, Measure.G));
 		}
-
-		let volume_left = 1000;
-		volume_left -=
-			(composition.component('alcohol')?.get(Measure.ML) || 0) +
-			(composition.component('fallback_alcohol')?.get(Measure.ML) || 0) +
-			(composition.component('syrup')?.get(Measure.ML) || 0) +
-			(composition.component('fallback_syrup')?.get(Measure.ML) || 0);
+		if (weight_result.alcohol > 0) {
+			composition.add('alcohol', new Component(data.alcohol, weight_result.alcohol, Measure.G));
+		}
+		if (weight_result.fallback_alcohol > 0) {
+			composition.add('fallback_alcohol', new Component(data.fallback.alcohol, weight_result.fallback_alcohol, Measure.G));
+		}
 		
-		let buffer = data.buffer || new Water;
-		composition.add(
-			'buffer',
-			new Component(
-				buffer,
-				volume_left,
-				Measure.ML
-			)
-		);
+		let volume_left = buf / Density.WATER;
+		if (volume_left > EPS) {
+			let buffer = data.buffer || new Water;
+			composition.add(
+				'buffer',
+				new Component(
+					buffer,
+					volume_left,
+					Measure.ML
+				)
+			);
+		}
 
 		let reference = composition.info();
 		let current = 0;
+		data.basis = data.basis || { source: 'total', value: 1000, measure: Measure.ML };
 		switch (data.basis.source) {
 			case 'alcohol':
                 if (!composition.component('alcohol'))

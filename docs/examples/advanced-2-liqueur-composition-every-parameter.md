@@ -84,20 +84,19 @@ Output:
 ```
 [
   'Cherry Syrup 66.67° Brix: 197.8ml, 262.5g',
-  'Merlot 12% ABV: 117.4ml, 115.2g',
-  'Cognac 40% ABV: 384.8ml, 364.4g',
-  'Cherry juice: 0.1ml, 0.1g',
-  'Cinnamon sticks: 1.8g',
+  'Merlot 12% ABV: 121.7ml, 119.5g',
+  'Cognac 40% ABV: 383.4ml, 363.1g',
+  'Cinnamon sticks: 1.7g',
   'Fresh or frozen cherries: 350g'
 ] {
   volume: 700,
-  weight: 742.1266954167193,
-  density: 1.060180993452456,
-  abs_spirit: 167.99998177731246,
-  abv: 23.999997396758925,
-  sugar: 174.99999999999972,
-  sugar_content: 0.24999999999999958,
-  kcal: 1627.1104186097823
+  weight: 745.0350833679512,
+  density: 1.0643358333827875,
+  abs_spirit: 167.97369991789998,
+  abv: 23.99624284541428,
+  sugar: 175.0007311015742,
+  sugar_content: 0.2500010444308203,
+  kcal: 1626.9681139282936
 }
 
 ```
