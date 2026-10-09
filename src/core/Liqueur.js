@@ -264,6 +264,10 @@ export class Liqueur extends Ingredient {
 	 * })
 	 */
 	make(data) {
+		data = data || {};
+		data.fallback = data.fallback || {};
+		data.basis = data.basis || { source: 'total', value: 1000, measure: Measure.ML };
+
 		let composition = new Composition();
 
 		let KV = {
@@ -277,7 +281,6 @@ export class Liqueur extends Ingredient {
 			max_syrup: 0,
 		};
 
-		data.fallback = data.fallback || {};
 
 		if (!data.alcohol && data.fallback && data.fallback.alcohol) {
 			data.alcohol = data.fallback.alcohol;
@@ -307,6 +310,16 @@ export class Liqueur extends Ingredient {
 			fallback_alcohol: data.fallback.alcohol ? (goal.ethanol_content / data.fallback.alcohol.get(Measure.WW)) : 0,
 			total: this.density * 1000,
 		}
+		const EPS = weight.total * 1e-9;
+
+		// validation
+		if (goal.sugar_content > 0 && !weight.syrup) {
+			throw new CalculationError('INSUFFICIENT_SUGAR');
+		}
+		if (goal.ethanol_content > 0 && !weight.alcohol) {
+			throw new CalculationError('INSUFFICIENT_ALCOHOL');
+		}
+
 		let weight_result = {
 			syrup: weight.syrup,
 			fallback_syrup: 0,
@@ -320,17 +333,22 @@ export class Liqueur extends Ingredient {
 			+ weight_result.fallback_alcohol
 			- weight.total;
 
-		const EPS = weight.total * 1e-9;
-		let buf = weight.total - weight.syrup - weight.alcohol, D = 0;
+		let buf = weight.total - weight.syrup - weight.alcohol, D = 0, x = 0;
 		if (buf < 0) {
 			D = deficit();
 			buf = 0;
 			if (data.priority && data.priority == 'syrup') {
-				let x = Math.min(1, D / (weight.alcohol - weight.fallback_alcohol));
+				if (!weight.fallback_alcohol || weight.fallback_alcohol > weight.alcohol) {
+					throw new CalculationError('INSUFFICIENT_ALCOHOL');
+				}
+				x = Math.min(1, D / (weight.alcohol - weight.fallback_alcohol));
 				weight_result.alcohol = weight.alcohol * (1 - x);
 				weight_result.fallback_alcohol = weight.fallback_alcohol * x;
 				D = deficit();
 				if (D > EPS) {
+					if (!weight.fallback_syrup || weight.fallback_syrup > weight.syrup) {
+						throw new CalculationError('INSUFFICIENT_SUGAR');
+					}
 					x = Math.min(1, D / (weight.syrup - weight.fallback_syrup));
 					weight_result.syrup = weight.syrup * (1 - x);
 					weight_result.fallback_syrup = weight.fallback_syrup * x;
@@ -340,11 +358,19 @@ export class Liqueur extends Ingredient {
 					throw new CalculationError('IMPOSSIBLE_COMBINATION');
 				}
 			} else {
-				let x = Math.min(1, D / (weight.syrup - weight.fallback_syrup));
-				weight_result.syrup = weight.syrup * (1 - x);
-				weight_result.fallback_syrup = weight.fallback_syrup * x;
-				D = deficit();
-				if (D > EPS) {
+				if (goal.sugar_content > 0) {
+					if (!weight.fallback_syrup || weight.fallback_syrup > weight.syrup) {
+						throw new CalculationError('INSUFFICIENT_SUGAR');
+					}
+					x = Math.min(1, D / (weight.syrup - weight.fallback_syrup));
+					weight_result.syrup = weight.syrup * (1 - x);
+					weight_result.fallback_syrup = weight.fallback_syrup * x;
+					D = deficit();
+				}
+				if (D > EPS && goal.ethanol_content > 0) {
+					if (!weight.fallback_alcohol || weight.fallback_alcohol > weight.alcohol) {
+						throw new CalculationError('INSUFFICIENT_ALCOHOL');
+					}
 					x = Math.min(1, D / (weight.alcohol - weight.fallback_alcohol));
 					weight_result.alcohol = weight.alcohol * (1 - x);
 					weight_result.fallback_alcohol = weight.fallback_alcohol * x;
@@ -353,6 +379,7 @@ export class Liqueur extends Ingredient {
 				if (D > EPS) {
 					throw new CalculationError('IMPOSSIBLE_COMBINATION');
 				}
+				console.log(weight, weight_result, D)
 			}
 		}
 		if (weight_result.syrup > 0) {
@@ -383,7 +410,6 @@ export class Liqueur extends Ingredient {
 
 		let reference = composition.info();
 		let current = 0;
-		data.basis = data.basis || { source: 'total', value: 1000, measure: Measure.ML };
 		switch (data.basis.source) {
 			case 'alcohol':
                 if (!composition.component('alcohol'))
