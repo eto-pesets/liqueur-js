@@ -245,7 +245,6 @@ export class Liqueur extends Ingredient {
 				if (D > EPS) {
 					throw new CalculationError('IMPOSSIBLE_COMBINATION');
 				}
-				console.log(weight, weight_result, D)
 			}
 		}
 		if (weight_result.syrup > 0) {
