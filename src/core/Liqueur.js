@@ -131,126 +131,6 @@ export class Liqueur extends Ingredient {
 		}
 		return null;
 	}
-
-	#composeSugar(composition, data, KV) {
-		let sugar = this.composition.info().sugar;
-		if (sugar > 0) {
-			// solution contains sugar
-			if (data.syrup) {
-				if (KV.syrup < KV.max_syrup) {
-					// main ingredient ok
-					composition.add(
-						'syrup',
-						new Component(data.syrup, KV.syrup * 1000, Measure.ML)
-					);
-					KV.max_alcohol = 1 - KV.syrup;
-				} else {
-					// mixing
-					if (data.fallback.syrup) {
-						let mild_k = Math.max(
-							KV.min_syrup,
-							KV.max_syrup * Conversion.correction
-						);
-
-						let goal_sugar = (0.001 * sugar * 1) / mild_k,
-							wv1 = data.syrup.get(Measure.WV),
-							wv2 = data.fallback.syrup.get(Measure.WV);
-
-						let k_main =
-								mild_k *
-								Conversion.binary_search(
-									(k) => Syrup.mix(k, wv1, wv2),
-									goal_sugar,
-									0,
-									1,
-									0.00000001,
-									wv1 < wv2
-								),
-							k_fallback = mild_k - k_main;
-
-						composition.add(
-							'syrup',
-							new Component(data.syrup, 1000 * k_main, Measure.ML)
-						);
-
-						composition.add(
-							'fallback_syrup',
-							new Component(
-								data.fallback.syrup,
-								1000 * k_fallback,
-								Measure.ML
-							)
-						);
-						KV.max_syrup = 1 - mild_k;
-					} else throw new CalculationError('INSUFFICIENT_SUGAR');
-				}
-			} else throw new CalculationError('INSUFFICIENT_SUGAR');
-		}
-	}
-	#composeAlcohol(composition, data, KV) {
-		let goal_abv = this.composition.info().abv;
-		if (goal_abv > 0) {
-			// solution contains alcohol
-			if (data.alcohol) {
-				if (KV.alcohol < KV.max_alcohol) {
-					// main ingredient ok
-					composition.add(
-						'alcohol',
-						new Component(
-							data.alcohol,
-							KV.alcohol * 1000,
-							Measure.ML
-						)
-					);
-					KV.max_syrup = 1 - KV.alcohol;
-				} else {
-					// mixing
-					if (data.fallback.alcohol) {
-						let mild_k = Math.max(
-							KV.min_alcohol,
-							KV.max_alcohol * Conversion.correction
-						);
-						let abv = {
-							main: data.alcohol.get(Measure.VV),
-							fallback: data.fallback.alcohol.get(Measure.VV),
-							target_mild: (goal_abv * 0.01) / mild_k,
-						};
-						let k_main =
-								mild_k *
-								Conversion.binary_search(
-									(k) =>
-										Alcohol.mix(k, abv.main, abv.fallback),
-									abv.target_mild,
-									0,
-									1,
-									0.0000001,
-									true
-								),
-							k_fallback = mild_k - k_main;
-
-						composition.add(
-							'alcohol',
-							new Component(
-								data.alcohol,
-								1000 * k_main,
-								Measure.ML
-							)
-						);
-
-						composition.add(
-							'fallback_alcohol',
-							new Component(
-								data.fallback.alcohol,
-								1000 * k_fallback,
-								Measure.ML
-							)
-						);
-						KV.max_syrup = 1 - mild_k;
-					} else throw new CalculationError('INSUFFICIENT_ALCOHOL');
-				}
-			} else throw new CalculationError('INSUFFICIENT_ALCOHOL');
-		}
-	}
 	/**
 	 * Make a composition
 	 *
@@ -269,18 +149,6 @@ export class Liqueur extends Ingredient {
 		data.basis = data.basis || { source: 'total', value: 1000, measure: Measure.ML };
 
 		let composition = new Composition();
-
-		let KV = {
-			alcohol: 0,
-			fallback_alcohol: 0,
-			min_alcohol: 0,
-			max_alcohol: 0,
-			syrup: 0,
-			fallback_syrup: 0,
-			min_syrup: 0,
-			max_syrup: 0,
-		};
-
 
 		if (!data.alcohol && data.fallback && data.fallback.alcohol) {
 			data.alcohol = data.fallback.alcohol;
@@ -301,8 +169,6 @@ export class Liqueur extends Ingredient {
 				? c.component('alcohol').get(Measure.WW) * c.component('alcohol').get(Measure.G)
 				: 0,
 		};
-		let buffer_volume_left = this.density * 1000 - goal.ethanol_content - goal.sugar_content;
-
 		let weight = {
 			syrup: data.syrup ? (goal.sugar_content / data.syrup.get(Measure.WW)) : 0,
 			fallback_syrup: data.fallback.syrup ? (goal.sugar_content / data.fallback.syrup.get(Measure.WW)) : 0,
@@ -408,7 +274,6 @@ export class Liqueur extends Ingredient {
 			);
 		}
 
-		let reference = composition.info();
 		let current = 0;
 		switch (data.basis.source) {
 			case 'alcohol':
