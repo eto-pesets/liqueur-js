@@ -24,4 +24,5 @@ export default {
 	'ERROR_INSUFFICIENT_ALCOHOL': 'Недостаточно алкоголя',
 	'ERROR_INVALID_VALUE': 'Некорректное значение',
 	'ERROR_CONVERSION_UNAVAILABLE': 'Конвертация недоступна',
+	'ERROR_VALIDATION_UNAVAILABLE': 'Валидация недоступна',
 };

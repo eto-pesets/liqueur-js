@@ -56,4 +56,5 @@ export default {
 	'ERROR_INSUFFICIENT_ALCOHOL': 'Insufficient alcohol',
 	'ERROR_INVALID_VALUE': 'Invalid value',
 	'ERROR_CONVERSION_UNAVAILABLE': 'Conversion unavailable',
+	'ERROR_VALIDATION_UNAVAILABLE': 'Validation unavailable',
 };

@@ -60,13 +60,13 @@ class Conversion {
 	 */
 	static convert(ingredient, from, to, value) {
 		if (from == to) return value;
-		if (
-			typeof Conversion.conversion_map[ingredient][from][to] != 'function'
-		)
+		if (typeof Conversion.conversion_map[ingredient][from][to] != 'function') {
 			throw new CalculationError('CONVERSION_UNAVAILABLE');
-		if (typeof Conversion.validation_map[ingredient][from] == 'function') {
-			if (!Conversion.validation_map[ingredient][from](value))
+		}
+		if (typeof Conversion.validation_map[ingredient][from] == 'object') {
+			if (!Conversion.validate(ingredient, from, value)) {
 				throw new CalculationError('INVALID_VALUE', value);
+			}
 		}
 		let result = Conversion.conversion_map[ingredient][from][to](value);
 		return result;
@@ -240,7 +240,7 @@ class Conversion {
 					diff,
 					precision,
 				});
-				throw new CalculationError('ERROR_BINARY_SEARCH_OUT_OF_BOUNDS');
+				throw new CalculationError('BINARY_SEARCH_OUT_OF_BOUNDS');
 			}
 			if (m * now > m * target) {
 				max = result;
@@ -256,7 +256,7 @@ class Conversion {
 					diff,
 					precision,
 				});
-				throw new CalculationError('ERROR_BINARY_SEARCH_OUT_OF_BOUNDS');
+				throw new CalculationError('BINARY_SEARCH_OUT_OF_BOUNDS');
 			}
 		} while (diff > precision);
 		return Math.round(result / precision) * precision;
